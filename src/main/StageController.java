@@ -1,29 +1,34 @@
-package code;
+package main;
 
-import code.ImageUtils.ImageCanvas;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import ij.CompositeImage;
 import ij.ImagePlus;
 import ij.ImageStack;
+import ij.gui.HistogramWindow;
 import ij.io.FileSaver;
 import ij.plugin.ContrastEnhancer;
 import ij.process.*;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import main.ImageUtils.ImageCanvas;
 import mmcorej.CMMCore;
 import mmcorej.MMCoreJ;
 import mmcorej.StrVector;
@@ -36,9 +41,11 @@ import org.micromanager.utils.MDUtils;
 import org.micromanager.utils.MMScriptException;
 import org.micromanager.utils.PropertyItem;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Timer;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -121,6 +128,19 @@ public class StageController implements Initializable {
     private JFXProgressBar progressBar;
     @FXML
     private Label rightStatusText;
+
+    @FXML
+    private GridPane stageControllBox;
+
+    @FXML
+    private AnchorPane histogramPanel;
+
+
+    @FXML
+    private ComboBox<String> unitComboBox;
+
+
+
     private Stage stage;
     private MMCoreJ studio;
     private String configAddress;
@@ -169,7 +189,10 @@ public class StageController implements Initializable {
         }
         event.consume();
     };
+
     private double lastTimeStamp = 0;
+
+    private int unitMultiplier = 1;
 
     public static void saveImagePlus(ImagePlus imp, JSONObject md, String path, String tiffFileName) {
         try {
@@ -204,6 +227,8 @@ public class StageController implements Initializable {
             core.snapImage();
             imageProcessor.setPixels(core.getImage());
             imageProcessor.autoThreshold();
+
+            updateHistogram(getImagePlus(core.getTaggedImage()));
 
 //            imageWindow = new ImageWindow(getImagePlus(core.getTaggedImage()));
 
@@ -349,9 +374,57 @@ public class StageController implements Initializable {
 //            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 //                imageCanvas.refreshSize();
 //            }
+
 //        });
 
+        stageControllBox.setOnMouseEntered(event -> {
+
+            FadeTransition ft = new FadeTransition(Duration.millis(300), stageControllBox);
+            ft.setFromValue(0.1);
+            ft.setToValue(1);
+            ft.play();
+        });
+
+        stageControllBox.setOnMouseExited(event -> {
+            FadeTransition ft = new FadeTransition(Duration.millis(300), stageControllBox);
+            ft.setFromValue(1);
+            ft.setToValue(0.1);
+            ft.play();
+
+        });
+
+        toggleButton.setOnMouseDragged(event -> {
+//            setManaged(false);
+            stageControllBox.setManaged(false);
+            stageControllBox.setTranslateX(event.getX() + stageControllBox.getTranslateX() - 30);
+            stageControllBox.setTranslateY(event.getY() + stageControllBox.getTranslateY() - 30);
+            event.consume();
+        });
+
+        unitComboBox.getItems().addAll("0.1 µm", "µm", "mm", "cm");
+        unitComboBox.setValue("0.1 µm");
+        unitComboBox.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                switch (newValue) {
+                    case "0.1 µm":
+                        unitMultiplier = 1;
+                        break;
+                    case "µm":
+                        unitMultiplier = 10;
+                        break;
+                    case "mm":
+                        unitMultiplier = 10000;
+                        break;
+                    case "cm":
+                        unitMultiplier = 100000;
+                        break;
+                }
+            }
+        });
     }
+
+
 
     private void invalidInput() {
         JFXSnackbar bar = new JFXSnackbar(viewPane);
@@ -368,7 +441,19 @@ public class StageController implements Initializable {
         bar.enqueue(new JFXSnackbar.SnackbarEvent(pane));
     }
 
-    private void updateHistogram(int[] histogram) {
+    private void updateHistogram(ImagePlus imagePlus) {
+
+        HistogramWindow histogramWindow = new HistogramWindow(imagePlus);
+        histogramWindow.showHistogram(imagePlus, 0);
+
+        JPanel jPanel = new JPanel();
+        jPanel.add(histogramWindow.getCanvas());
+        SwingNode swingNode = new SwingNode();
+        swingNode.setContent(jPanel);
+
+        histogramPanel.getChildren().add(swingNode);
+
+
 //        Platform.runLater(() -> {
 //            if(!histogramDrawed){
 //                histogramChart.getData().clear();
@@ -412,7 +497,8 @@ public class StageController implements Initializable {
     }
 
     public void loadConfig() {
-        configAddress = "src/configs/MMConfig_demo.cfg";
+        configAddress = "config.cfg";
+        String configAddress2 = "config2.cfg";
 
 
         try {
@@ -432,6 +518,13 @@ public class StageController implements Initializable {
 //            System.out.println("xxxx");
 
         } catch (Exception e) {
+//            try {
+//                core.loadSystemConfiguration(configAddress2);
+//                core.initializeAllDevices();
+//                loadCameraConfig();
+//            } catch (Exception e1) {
+//                e1.printStackTrace();
+//            }
 
             e.printStackTrace();
         }
@@ -927,7 +1020,7 @@ public class StageController implements Initializable {
             }
             imageQueue_ = new LinkedBlockingQueue<TaggedImage>(10);
             // XXX The logic here is very weird. We add this first image only if we
-            // are using a single camera, because the single camera timer code checks
+            // are using a single camera, because the single camera timer main checks
             // and eliminates duplicates of the same frame. For multi camera, we do
             // not add the image, since no checks for duplicates are performed
             // (which is a bug that needs to be fixed).
@@ -1167,6 +1260,7 @@ public class StageController implements Initializable {
     }
 
     private void getEstimatedTimeRemaining() {
+        remainingCaptures--;
         boolean firstTime = false;
         firstTime = lastTimeStamp == 0;
 

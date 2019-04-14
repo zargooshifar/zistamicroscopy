@@ -1,4 +1,4 @@
-//package code.ImageUtils;
+//package main.ImageUtils;
 //
 //
 //import ij.ImagePlus;

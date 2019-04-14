@@ -1,7 +1,6 @@
-package code.ImageUtils;
+package main.ImageUtils;
 
 
-import code.FPSCounter;
 import ij.ImagePlus;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -10,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+import main.FPSCounter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

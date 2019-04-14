@@ -1,4 +1,4 @@
-package code;
+package main;
 
 public class AcuisitionController {
 }
