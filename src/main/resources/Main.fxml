@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -8,12 +10,12 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: null;"
-      xmlns="http://javafx.com/javafx/11.0.1" fx:controller="main.StageController">
+      xmlns="http://javafx.com/javafx/11.0.1" fx:controller="main.Controllers.MainController">
     <children>
         <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0" stylesheets="@assests/css/styles.css"
                  tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="File">
+                <Tab text="Home">
                     <content>
                         <HBox alignment="CENTER_LEFT" maxHeight="100.0" minHeight="100.0" prefHeight="100.0"
                               style="-fx-background-color: null;">
@@ -36,99 +38,8 @@
                 </Tab>
                 <Tab text="Camera">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    style="-fx-background-color: #fff;">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0"
-                                      style="-fx-background-color: #fff;">
-                                    <children>
-                                        <HBox alignment="CENTER" prefHeight="100.0" spacing="8.0">
-                                            <children>
-                                                <JFXButton fx:id="btn_capture" maxHeight="80.0" maxWidth="80.0"
-                                                           minHeight="80.0" minWidth="80.0" onAction="#doCapture"
-                                                           prefHeight="80.0" prefWidth="80.0" text="Capture"
-                                                           textAlignment="CENTER" wrapText="true"/>
-                                                <JFXButton fx:id="btn_capture_save" maxHeight="80.0" maxWidth="80.0"
-                                                           minHeight="80.0" minWidth="80.0" onAction="#doCaptureSave"
-                                                           prefHeight="80.0" prefWidth="80.0" text="Capture and Save"
-                                                           textAlignment="CENTER" wrapText="true"/>
-                                                <JFXButton fx:id="btn_startlive" maxHeight="80.0" maxWidth="80.0"
-                                                           minHeight="80.0" minWidth="80.0"
-                                                           onMouseClicked="#takeLiveStream" prefHeight="80.0"
-                                                           prefWidth="80.0" text="Start Live Stream"
-                                                           textAlignment="CENTER" wrapText="true"/>
-                                            </children>
-                                            <padding>
-                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-                                            </padding>
-                                        </HBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
-                                            <children>
-                                                <HBox alignment="CENTER" fillHeight="false" prefWidth="200.0"
-                                                      spacing="8.0">
-                                                    <children>
-                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                                              text="Exposure time" HBox.hgrow="ALWAYS"/>
-                                                        <Pane HBox.hgrow="ALWAYS"/>
-                                                        <Spinner fx:id="exposure" prefWidth="70.0"/>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefWidth="200.0" spacing="8.0">
-                                                    <children>
-                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gain"
-                                                              HBox.hgrow="ALWAYS"/>
-                                                        <Pane HBox.hgrow="ALWAYS"/>
-                                                        <Spinner fx:id="gain" prefWidth="70.0"/>
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                            <padding>
-                                                <Insets left="16.0" right="16.0"/>
-                                            </padding>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
-                                            <children>
-                                                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0"
-                                                      spacing="8.0">
-                                                    <children>
-                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BitDepth"
-                                                              HBox.hgrow="ALWAYS"/>
-                                                        <Pane HBox.hgrow="ALWAYS"/>
-                                                        <ChoiceBox fx:id="bitDepthPicker" maxWidth="80.0"
-                                                                   minWidth="80.0" prefWidth="80.0"/>
-                                                    </children>
-                                                    <padding>
-                                                        <Insets left="8.0" right="8.0"/>
-                                                    </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0"
-                                                      spacing="8.0">
-                                                    <children>
-                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pixel Type"
-                                                              HBox.hgrow="ALWAYS"/>
-                                                        <Pane HBox.hgrow="ALWAYS"/>
-                                                        <ChoiceBox fx:id="pixelTypePicker" maxWidth="80.0"
-                                                                   minWidth="80.0" prefWidth="80.0"/>
-                                                    </children>
-                                                    <padding>
-                                                        <Insets left="8.0" right="8.0"/>
-                                                    </padding>
-                                                </HBox>
-                                            </children>
-                                            <padding>
-                                                <Insets left="16.0" right="16.0"/>
-                                            </padding>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="4.0" top="4.0"/>
-                                    </padding>
-                                </HBox>
-                            </children>
-                        </AnchorPane>
+                        <AnchorPane fx:id="cameraPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                    prefWidth="200.0" style="-fx-background-color: #fff;"/>
                     </content>
                 </Tab>
                 <Tab text="View">
@@ -169,128 +80,8 @@
                 </Tab>
                 <Tab text="Acquisition">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    style="-fx-background-color: #fff;">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0"
-                                      style="-fx-background-color: #fff;">
-                                    <children>
-                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                            <HBox.margin>
-                                                <Insets left="8.0" right="8.0"/>
-                                            </HBox.margin>
-                                            <children>
-                                                <HBox alignment="CENTER" prefHeight="25.0" prefWidth="179.0">
-                                                    <children>
-                                                        <JFXButton fx:id="startCapturingButton" alignment="CENTER"
-                                                                   contentDisplay="CENTER" ellipsisString=""
-                                                                   maxHeight="80.0" maxWidth="80.0" minHeight="80.0"
-                                                                   minWidth="80.0" onAction="#startCapturing"
-                                                                   prefHeight="80.0" prefWidth="80.0"
-                                                                   text="Start Capturing" textAlignment="CENTER"
-                                                                   wrapText="true"/>
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="160.0" spacing="6.0">
-                                            <children>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="Horizental Steps" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="horizentalStepsInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="100"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="Vertical Steps" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="verticalStepsInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="100"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                            <HBox.margin>
-                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-                                            </HBox.margin>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="160.0" spacing="6.0">
-                                            <children>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="Start X" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="XStartInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="0"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="Start Y" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="YStartInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="0"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                                <JFXButton fx:id="setStartPointButton" onAction="#setStartPoint"
-                                                           text="set Current Position">
-                                                    <VBox.margin>
-                                                        <Insets top="2.0"/>
-                                                    </VBox.margin>
-                                                </JFXButton>
-                                            </children>
-                                            <HBox.margin>
-                                                <Insets left="16.0" right="16.0"/>
-                                            </HBox.margin>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="160.0" spacing="6.0">
-                                            <children>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="End X" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="XEndInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="1000"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER">
-                                                    <children>
-                                                        <Label ellipsisString="" maxWidth="1.7976931348623157E308"
-                                                               text="End Y" HBox.hgrow="ALWAYS"/>
-                                                        <JFXTextField fx:id="YEndInput" focusColor="#e4e8f2"
-                                                                      prefHeight="25.0" prefWidth="55.0" text="1000"
-                                                                      HBox.hgrow="NEVER"/>
-                                                    </children>
-                                                </HBox>
-                                                <JFXButton fx:id="setEndPointButton" onAction="#setEndPoint"
-                                                           text="set Current Position">
-                                                    <VBox.margin>
-                                                        <Insets top="2.0"/>
-                                                    </VBox.margin>
-                                                </JFXButton>
-                                            </children>
-                                            <HBox.margin>
-                                                <Insets left="16.0" right="16.0"/>
-                                            </HBox.margin>
-                                        </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="4.0" top="4.0"/>
-                                    </padding>
-                                </HBox>
-                            </children>
-                        </AnchorPane>
+                        <AnchorPane fx:id="acquisitionPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                    prefWidth="200.0" style="-fx-background-color: #fff;"/>
                     </content>
                 </Tab>
                 <Tab text="Statistics">
@@ -399,189 +190,6 @@
                 <StackPane alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0">
                     <children>
                         <Pane fx:id="viewPane"/>
-                        <GridPane fx:id="stageControllBox" alignment="BOTTOM_CENTER" blendMode="EXCLUSION"
-                                  maxHeight="180.0" maxWidth="180.0" minHeight="180.0" minWidth="180.0" opacity="0.12"
-                                  prefHeight="180.0" prefWidth="180.0"
-                                  style="-fx-background-color: #000; -fx-background-radius: 100px; -fx-border-color: #fff; -fx-border-radius: 100px;">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <JFXButton id="up" fx:id="upButton" ellipsisString="" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveUpSmall"
-                                           GridPane.columnIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/up.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="left" fx:id="leftButton" ellipsisString=""
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#moveLeftSmall" GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/left.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="right" fx:id="rightButton" ellipsisString=""
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#moveRightSmall" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/right.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="bottom" fx:id="bottomButton" ellipsisString=""
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#moveBottomSmall" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/bottom.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="toggle" fx:id="toggleButton" ellipsisString=""
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#toggleStageButtons" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/circle.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="dup" fx:id="dupButton" ellipsisString="" layoutX="70.0" layoutY="10.0"
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#moveUpMedium" visible="false" GridPane.columnIndex="1">
-                                    <graphic>
-                                        <ImageView fx:id="dup" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/dup.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="dleft" fx:id="dleftButton" ellipsisString="" layoutX="10.0"
-                                           layoutY="70.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveLeftMedium" visible="false"
-                                           GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/dleft.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="dright" fx:id="drightButton" ellipsisString="" layoutX="130.0"
-                                           layoutY="70.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveRightMedium" visible="false"
-                                           GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/dright.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="dbottom" fx:id="dbottomButton" ellipsisString="" layoutX="70.0"
-                                           layoutY="130.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveBottomMedium"
-                                           visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/dbottom.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="tup" fx:id="tupButton" ellipsisString="" layoutX="70.0" layoutY="10.0"
-                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                           onAction="#moveUpLarge" visible="false" GridPane.columnIndex="1">
-                                    <graphic>
-                                        <ImageView fx:id="dup1" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/tup.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="tleft" fx:id="tleftButton" ellipsisString="" layoutX="10.0"
-                                           layoutY="70.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveLeftLarge" visible="false"
-                                           GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/tleft.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="tright" fx:id="trightButton" ellipsisString="" layoutX="130.0"
-                                           layoutY="70.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveRightLarge" visible="false"
-                                           GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                    <graphic>
-                                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/tright.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton id="tbottom" fx:id="tbottomButton" ellipsisString="" layoutX="70.0"
-                                           layoutY="130.0" maxHeight="1.7976931348623157E308"
-                                           maxWidth="1.7976931348623157E308" onAction="#moveBottomLarge" visible="false"
-                                           GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <graphic>
-                                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@assests/icons/tbottom.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
-                            </children>
-                            <StackPane.margin>
-                                <Insets bottom="32.0"/>
-                            </StackPane.margin>
-                        </GridPane>
                     </children>
                 </StackPane>
                 <VBox maxWidth="300.0" minWidth="250.0" prefWidth="250.0">

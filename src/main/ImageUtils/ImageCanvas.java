@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import main.FPSCounter;
+import main.utils.FPSCounter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -89,44 +89,51 @@ public class ImageCanvas extends Canvas implements MouseListener, MouseMotionLis
         keepAspectRatio = bool;
     }
 
-    public void updateImage(ImagePlus imp) {
+    public void updateImage(ImagePlus imp) throws NullPointerException {
+
         lastImagePlus = imp;
         Platform.runLater(() -> {
+            try {
 
-            double w = getWidth();
-            double h = getHeight();
-            if (keepAspectRatio) {
-                double min = Math.min(w, h);
-                w = h = min;
+                double w = getWidth();
+                double h = getHeight();
+                if (keepAspectRatio) {
+                    double min = Math.min(w, h);
+                    w = h = min;
+                }
+                lastWidth = getWidth();
+                lastHeight = getHeight();
+                double x = (getWidth() / 2) - (w / 2);
+                double y = (getHeight() / 2) - (h / 2);
+
+
+                Image finalImage = SwingFXUtils.toFXImage(imp.getBufferedImage(), null);
+
+                getGraphicsContext2D().setFill(Color.WHITE);
+                getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
+                rotate(angle, x + w / 2, y + h / 2);
+                switch (angle) {
+                    case 0:
+                        //nothing to do!
+                        break;
+                    case 90:
+                    case -270:
+                        //rotated cw! so x has increased as w, y increased as h,
+                        break;
+                    case 180:
+                    case -180:
+
+                        break;
+                    case 270:
+                    case -90:
+
+                        break;
+                }
+
+                getGraphicsContext2D().drawImage(finalImage, x, y, w, h);
+            } catch (NullPointerException e) {
+
             }
-            lastWidth = getWidth();
-            lastHeight = getHeight();
-            double x = (getWidth() / 2) - (w / 2);
-            double y = (getHeight() / 2) - (h / 2);
-
-            Image finalImage = SwingFXUtils.toFXImage(imp.getBufferedImage(), null);
-            getGraphicsContext2D().setFill(Color.WHITE);
-            getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
-            rotate(angle, x + w / 2, y + h / 2);
-            switch (angle) {
-                case 0:
-                    //nothing to do!
-                    break;
-                case 90:
-                case -270:
-                    //rotated cw! so x has increased as w, y increased as h, 
-                    break;
-                case 180:
-                case -180:
-
-                    break;
-                case 270:
-                case -90:
-
-                    break;
-            }
-
-            getGraphicsContext2D().drawImage(finalImage, x, y, w, h);
 
 
         });

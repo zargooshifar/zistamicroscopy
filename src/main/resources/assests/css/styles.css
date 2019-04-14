@@ -1,6 +1,6 @@
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 100;
-    -fx-background-color: #55f;
+    -fx-background-color: #3f51b5;
 
 }
 
@@ -13,7 +13,7 @@
 }
 
 .tab-pane .tab {
-    -fx-background-color: #55f;
+    -fx-background-color: #3f51b5;
 
 }
 

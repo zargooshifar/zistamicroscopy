@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" fx:id="stageControllBox" alignment="BOTTOM_CENTER" blendMode="EXCLUSION"
+         maxHeight="180.0"
+         maxWidth="180.0" minHeight="180.0" minWidth="180.0" opacity="0.12" prefHeight="180.0"
+         prefWidth="180.0"
+         style="-fx-background-color: #000; -fx-background-radius: 100px; -fx-border-color: #fff; -fx-border-radius: 100px;"
+         xmlns="http://javafx.com/javafx/11.0.1" type="GridPane">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <JFXButton id="up" fx:id="upButton" ellipsisString="" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/up.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="left" fx:id="leftButton" ellipsisString="" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/left.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="right" fx:id="rightButton" ellipsisString="" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/right.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="bottom" fx:id="bottomButton" ellipsisString="" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/bottom.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="toggle" fx:id="toggleButton" ellipsisString="" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/circle.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="dup" fx:id="dupButton" ellipsisString="" layoutX="70.0" layoutY="10.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="1">
+            <graphic>
+                <ImageView fx:id="dup" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/dup.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="dleft" fx:id="dleftButton" ellipsisString="" layoutX="10.0" layoutY="70.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/dleft.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="dright" fx:id="drightButton" ellipsisString="" layoutX="130.0" layoutY="70.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/dright.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="dbottom" fx:id="dbottomButton" ellipsisString="" layoutX="70.0" layoutY="130.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/dbottom.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="tup" fx:id="tupButton" ellipsisString="" layoutX="70.0" layoutY="10.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="1">
+            <graphic>
+                <ImageView fx:id="dup1" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/tup.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="tleft" fx:id="tleftButton" ellipsisString="" layoutX="10.0" layoutY="70.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/tleft.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="tright" fx:id="trightButton" ellipsisString="" layoutX="130.0" layoutY="70.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <graphic>
+                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/tright.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton id="tbottom" fx:id="tbottomButton" ellipsisString="" layoutX="70.0" layoutY="130.0"
+                   maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <graphic>
+                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@assests/icons/tbottom.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+    </children>
+</fx:root>
