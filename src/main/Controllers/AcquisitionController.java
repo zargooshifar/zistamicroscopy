@@ -279,12 +279,12 @@ public class AcquisitionController extends HBox {
         sec = (timeInSec - hour * 3600 - min * 60);
 
         if (firstTime) {
-            Platform.runLater(() -> MainController.setLeftStatusText("calculating estimated remaining time..."));
+            Platform.runLater(() -> Singletons.getStatusbarControllerInstance().setLeftStatusText("calculating estimated remaining time..."));
         } else {
             int finalHour = hour;
             int finalMin = min;
             int finalSec = sec;
-            Platform.runLater(() -> MainController.setLeftStatusText(String.format("%d hours %d minutes %d seconds remaining...", finalHour, finalMin, finalSec)));
+            Platform.runLater(() -> Singletons.getStatusbarControllerInstance().setLeftStatusText(String.format("%d hours %d minutes %d seconds remaining...", finalHour, finalMin, finalSec)));
         }
 
         lastTimeStamp = now;
@@ -293,8 +293,8 @@ public class AcquisitionController extends HBox {
     private void setProgress() {
         capturingProgress += capturingProgressStep;
         Platform.runLater(() -> {
-            MainController.setProgressBar(capturingProgress / 100);
-            MainController.setRightStatusText(String.format("%.2f %% ", capturingProgress));
+            Singletons.getStatusbarControllerInstance().setProgressBar(capturingProgress / 100);
+            Singletons.getStatusbarControllerInstance().setRightStatusText(String.format("%.2f %% ", capturingProgress));
         });
 
     }

@@ -1,7 +1,6 @@
 package main.Controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXSnackbar;
 import ij.ImagePlus;
 import ij.gui.HistogramWindow;
@@ -13,8 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import main.ImageUtils.ImageCanvas;
 import main.Singletons;
@@ -29,13 +28,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML
-    private static Label leftStatusText;
-    @FXML
-    private static JFXProgressBar progressBar;
-    @FXML
-    private static Label rightStatusText;
-    private static CMMCore core;
+
     @FXML
     private Pane viewPane;
     @FXML
@@ -44,27 +37,14 @@ public class MainController implements Initializable {
     private AnchorPane acquisitionPane;
     @FXML
     private AnchorPane histogramPanel;
+    private static CMMCore core;
     @FXML
     private ComboBox<String> unitComboBox;
+    @FXML
+    private HBox statusbarPane;
     private ImageCanvas imageCanvas;
     private int unitMultiplier = 1;
     //    private boolean histogramDrawed;
-
-
-    public static void setLeftStatusText(String text) {
-        leftStatusText.setText(text);
-    }
-
-    public static void setRightStatusText(String text) {
-        rightStatusText.setText(text);
-
-    }
-
-    public static void setProgressBar(float v) {
-        progressBar.setVisible(true);
-        progressBar.setProgress(v);
-
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -79,8 +59,10 @@ public class MainController implements Initializable {
         viewPane.getChildren().add(imageCanvas);
         viewPane.getChildren().add(Singletons.getStageControllerInstance());
 
+
         cameraPane.getChildren().add(Singletons.getCameraControllerInstance());
         acquisitionPane.getChildren().add(Singletons.getAcquisitionControllerInstance());
+        statusbarPane.getChildren().add(Singletons.getStatusbarControllerInstance());
 
 
         unitComboBox.getItems().addAll("0.1 µm", "µm", "mm", "cm");
@@ -104,6 +86,20 @@ public class MainController implements Initializable {
                 }
             }
         });
+
+    }
+
+    public void loadConfig() {
+        String configAddress = "config.cfg";
+
+        try {
+
+            core.loadSystemConfiguration(configAddress);
+            core.initializeAllDevices();
+            Singletons.getCameraControllerInstance().loadCameraConfig();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -147,19 +143,7 @@ public class MainController implements Initializable {
 
     }
 
-    public void loadConfig() {
-        String configAddress = "config.cfg";
 
-        try {
-
-            core.loadSystemConfiguration(configAddress);
-            core.initializeAllDevices();
-            Singletons.getCameraControllerInstance().loadCameraConfig();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @FXML
     void changeViewScale(ActionEvent event) {
@@ -177,6 +161,7 @@ public class MainController implements Initializable {
         imageCanvas.rotate(90);
 
     }
+
 
     public void invalidInput() {
         JFXSnackbar bar = new JFXSnackbar(viewPane);

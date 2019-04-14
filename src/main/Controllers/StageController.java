@@ -15,8 +15,6 @@ import main.Singletons;
 import mmcorej.CMMCore;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class StageController extends GridPane {
@@ -53,38 +51,19 @@ public class StageController extends GridPane {
     private GridPane stageControllBox;
     private CMMCore core;
     private MoveSizes currentMoveSize = MoveSizes.SMALL;
-    private EventHandler<KeyEvent> keyListener = event -> {
-        switch (event.getCode()) {
-            case UP:
-                move(Direction.UP);
-                break;
-            case LEFT:
-                move(Direction.LEFT);
-                break;
-            case RIGHT:
-                move(Direction.RIGHT);
-                break;
-            case DOWN:
-                move(Direction.BOTTOM);
-                break;
-
-        }
-        event.consume();
-    };
 
     public StageController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/controlBox.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         setAlignment(Pos.BOTTOM_CENTER);
-//
+
         try {
             fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         core = Singletons.getCoreInstance();
-
 
         toggleButton.setOnMouseDragged(event -> {
 //            setManaged(false);
@@ -114,11 +93,27 @@ public class StageController extends GridPane {
 
     }
 
-    //    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private EventHandler<KeyEvent> keyListener = event -> {
+        switch (event.getCode()) {
+            case UP:
+                move(Direction.UP);
+                break;
+            case LEFT:
+                move(Direction.LEFT);
+                break;
+            case RIGHT:
+                move(Direction.RIGHT);
+                break;
+            case DOWN:
+                move(Direction.BOTTOM);
+                break;
+
+        }
+        event.consume();
+    };
 
 
-    }
+
 
     public Position getPosition() {
         if (position == null) {

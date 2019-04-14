@@ -3,6 +3,7 @@ package main;
 import main.Controllers.AcquisitionController;
 import main.Controllers.CameraController;
 import main.Controllers.StageController;
+import main.Controllers.StatusbarController;
 import mmcorej.CMMCore;
 
 public class Singletons {
@@ -12,6 +13,7 @@ public class Singletons {
     private static StageController stageInstance;
     private static CameraController cameraControllerInstance;
     private static AcquisitionController acquisitionController;
+    private static StatusbarController statusbarController;
 
     public static CMMCore getCoreInstance() {
         if (coreInstance == null)
@@ -36,6 +38,12 @@ public class Singletons {
         if (acquisitionController == null)
             acquisitionController = new AcquisitionController();
         return acquisitionController;
+    }
+
+    public static StatusbarController getStatusbarControllerInstance() {
+        if (statusbarController == null)
+            statusbarController = new StatusbarController();
+        return statusbarController;
     }
 
 
