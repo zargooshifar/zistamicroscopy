@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0"
-         style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/11.0.1" type="HBox">
+         style="-fx-background-color: #fff;" type="HBox">
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <HBox.margin>
