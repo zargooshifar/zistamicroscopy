@@ -227,18 +227,8 @@ public class AcquisitionController extends HBox {
     }
 
     private void changeStageControlsDisable(boolean mode) {
-//        upButton.setDisable(mode);
-//        leftButton.setDisable(mode);
-//        rightButton.setDisable(mode);
-//        bottomButton.setDisable(mode);
-//        dupButton.setDisable(mode);
-//        dleftButton.setDisable(mode);
-//        drightButton.setDisable(mode);
-//        dbottomButton.setDisable(mode);
-//        tupButton.setDisable(mode);
-//        tleftButton.setDisable(mode);
-//        trightButton.setDisable(mode);
-//        tbottomButton.setDisable(mode);
+
+        Singletons.getStageControllerInstance().setDisable(mode);
         horizentalStepsInput.setDisable(mode);
         verticalStepsInput.setDisable(mode);
 

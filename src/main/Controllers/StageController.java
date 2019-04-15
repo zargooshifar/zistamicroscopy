@@ -2,12 +2,9 @@ package main.Controllers;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
@@ -15,6 +12,7 @@ import main.Singletons;
 import mmcorej.CMMCore;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class StageController extends GridPane {
@@ -52,11 +50,32 @@ public class StageController extends GridPane {
     private CMMCore core;
     private MoveSizes currentMoveSize = MoveSizes.SMALL;
 
+    public EventHandler<KeyEvent> keyListener = event -> {
+        switch (event.getCode()) {
+            case UP:
+                move(Direction.UP);
+                break;
+            case LEFT:
+                move(Direction.LEFT);
+                break;
+            case RIGHT:
+                move(Direction.RIGHT);
+                break;
+            case DOWN:
+                move(Direction.BOTTOM);
+                break;
+
+        }
+        event.consume();
+    };
+    AtomicBoolean hold = new AtomicBoolean(false);
+
+
     public StageController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/controlBox.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
-        setAlignment(Pos.BOTTOM_CENTER);
+
 
         try {
             fxmlLoader.load();
@@ -91,26 +110,58 @@ public class StageController extends GridPane {
 
         });
 
+
+//        upButton.setOnMouseClicked((event -> move(Direction.UP)));
+//        leftButton.setOnMouseClicked((event -> move(Direction.LEFT)));
+//        rightButton.setOnMouseClicked((event -> move(Direction.RIGHT)));
+//        bottomButton.setOnMouseClicked(event -> move(Direction.BOTTOM));
+        dupButton.setOnMouseClicked((event -> move(Direction.UP)));
+        dleftButton.setOnMouseClicked((event -> move(Direction.LEFT)));
+        drightButton.setOnMouseClicked((event -> move(Direction.RIGHT)));
+        dbottomButton.setOnMouseClicked(event -> move(Direction.BOTTOM));
+        tupButton.setOnMouseClicked((event -> move(Direction.UP)));
+        tleftButton.setOnMouseClicked((event -> move(Direction.LEFT)));
+        trightButton.setOnMouseClicked((event -> move(Direction.RIGHT)));
+        tbottomButton.setOnMouseClicked(event -> move(Direction.BOTTOM));
+
+
+        upButton.setOnMousePressed(event -> {
+            hold.set(true);
+            smoothmove(Direction.UP);
+        });
+
+        leftButton.setOnMousePressed(event -> {
+            hold.set(true);
+            smoothmove(Direction.LEFT);
+        });
+
+        rightButton.setOnMousePressed(event -> {
+            hold.set(true);
+            smoothmove(Direction.RIGHT);
+        });
+
+        bottomButton.setOnMousePressed(event -> {
+            hold.set(true);
+            smoothmove(Direction.BOTTOM);
+        });
+
+        upButton.setOnMouseReleased(event -> hold.set(false));
+        leftButton.setOnMouseReleased(event -> hold.set(false));
+        rightButton.setOnMouseReleased(event -> hold.set(false));
+        bottomButton.setOnMouseReleased(event -> hold.set(false));
     }
 
-    private EventHandler<KeyEvent> keyListener = event -> {
-        switch (event.getCode()) {
-            case UP:
-                move(Direction.UP);
-                break;
-            case LEFT:
-                move(Direction.LEFT);
-                break;
-            case RIGHT:
-                move(Direction.RIGHT);
-                break;
-            case DOWN:
-                move(Direction.BOTTOM);
-                break;
+    public void smoothmove(Direction direction) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (hold.get())
+                    move(direction);
+            }
+        });
+        thread.start();
 
-        }
-        event.consume();
-    };
+    }
 
 
 
@@ -129,8 +180,7 @@ public class StageController extends GridPane {
         return stepSizes;
     }
 
-    @FXML
-    void moveBottomLarge(ActionEvent event) {
+    void moveBottomLarge() {
         try {
             core.setRelativeXYPosition(0, -getStepSizes().getLargeStep());
         } catch (Exception e) {
@@ -139,8 +189,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveBottomMedium(ActionEvent event) {
+    void moveBottomMedium() {
         try {
 
             core.setRelativeXYPosition(0, -getStepSizes().getMediumStep());
@@ -150,8 +199,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveBottomSmall(ActionEvent event) {
+    void moveBottomSmall() {
         try {
             core.setRelativeXYPosition(0, -getStepSizes().getSmallStep());
         } catch (Exception e) {
@@ -160,8 +208,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveLeftLarge(ActionEvent event) {
+    void moveLeftLarge() {
         try {
             core.setRelativeXYPosition(-getStepSizes().getLargeStep(), 0);
         } catch (Exception e) {
@@ -170,8 +217,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveLeftMedium(ActionEvent event) {
+    void moveLeftMedium() {
         try {
             core.setRelativeXYPosition(-getStepSizes().getMediumStep(), 0);
         } catch (Exception e) {
@@ -180,8 +226,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveLeftSmall(ActionEvent event) {
+    void moveLeftSmall() {
         try {
             core.setRelativeXYPosition(-getStepSizes().getSmallStep(), 0);
         } catch (Exception e) {
@@ -190,8 +235,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveRightLarge(ActionEvent event) {
+    void moveRightLarge() {
         try {
             core.setRelativeXYPosition(getStepSizes().getLargeStep(), 0);
         } catch (Exception e) {
@@ -200,8 +244,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveRightMedium(ActionEvent event) {
+    void moveRightMedium() {
         try {
             core.setRelativeXYPosition(getStepSizes().getMediumStep(), 0);
         } catch (Exception e) {
@@ -210,8 +253,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveRightSmall(ActionEvent event) {
+    void moveRightSmall() {
         try {
             core.setRelativeXYPosition(getStepSizes().getSmallStep(), 0);
         } catch (Exception e) {
@@ -220,8 +262,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveUpLarge(ActionEvent event) {
+    void moveUpLarge() {
         try {
             core.setRelativeXYPosition(0, getStepSizes().getLargeStep());
         } catch (Exception e) {
@@ -230,8 +271,7 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveUpMedium(ActionEvent event) {
+    void moveUpMedium() {
         try {
             core.setRelativeXYPosition(0, getStepSizes().getMediumStep());
         } catch (Exception e) {
@@ -240,13 +280,13 @@ public class StageController extends GridPane {
         updatePosition();
     }
 
-    @FXML
-    void moveUpSmall(ActionEvent event) {
+    void moveUpSmall() {
         try {
             core.setRelativeXYPosition(0, getStepSizes().getSmallStep());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         updatePosition();
     }
 
@@ -255,52 +295,52 @@ public class StageController extends GridPane {
             case UP:
                 switch (currentMoveSize) {
                     case LARGE:
-                        moveUpLarge(null);
+                        moveUpLarge();
                         break;
                     case MEDIUM:
-                        moveUpMedium(null);
+                        moveUpMedium();
                         break;
                     case SMALL:
-                        moveUpSmall(null);
+                        moveUpSmall();
                         break;
                 }
                 break;
             case LEFT:
                 switch (currentMoveSize) {
                     case LARGE:
-                        moveLeftLarge(null);
+                        moveLeftLarge();
                         break;
                     case MEDIUM:
-                        moveLeftMedium(null);
+                        moveLeftMedium();
                         break;
                     case SMALL:
-                        moveLeftSmall(null);
+                        moveLeftSmall();
                         break;
                 }
                 break;
             case RIGHT:
                 switch (currentMoveSize) {
                     case LARGE:
-                        moveRightLarge(null);
+                        moveRightLarge();
                         break;
                     case MEDIUM:
-                        moveRightMedium(null);
+                        moveRightMedium();
                         break;
                     case SMALL:
-                        moveRightSmall(null);
+                        moveRightSmall();
                         break;
                 }
                 break;
             case BOTTOM:
                 switch (currentMoveSize) {
                     case LARGE:
-                        moveBottomLarge(null);
+                        moveBottomLarge();
                         break;
                     case MEDIUM:
-                        moveBottomMedium(null);
+                        moveBottomMedium();
                         break;
                     case SMALL:
-                        moveBottomSmall(null);
+                        moveBottomSmall();
                         break;
                 }
                 break;
@@ -313,9 +353,7 @@ public class StageController extends GridPane {
         try {
             getPosition().setX(core.getXPosition());
             getPosition().setY(core.getYPosition());
-            Platform.runLater(() -> {
-
-            });
+            Singletons.getStageStateInstance().updatePosition(core.getXPosition(), core.getYPosition(), 0);
 
         } catch (Exception e) {
             e.printStackTrace();

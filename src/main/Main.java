@@ -21,6 +21,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("resources/Main.fxml"));
         primaryStage.setTitle("Zistagene Microscopy");
 //        primaryStage.initStyle(StageStyle.UNDECORATED);
+
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
 

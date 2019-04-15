@@ -102,57 +102,61 @@ public class CameraController extends HBox {
     }
 
     public void loadCameraConfig() throws Exception {
-        StrVector pixelTypeValues = core.getAllowedPropertyValues("Camera", "PixelType");
-        for (int i = 0; i < pixelTypeValues.size(); i++) {
-            String val = pixelTypeValues.get(i);
-            pixelTypePicker.getItems().add(val);
-        }
-        String defaultPixelType = pixelTypeValues.get((int) pixelTypeValues.size() - 1);
-        pixelTypePicker.valueProperty().setValue(defaultPixelType);
-        core.setProperty(core.getCameraDevice(), "PixelType", defaultPixelType);
-
-
-        StrVector bitDepthValues = core.getAllowedPropertyValues("Camera", "BitDepth");
-        for (int i = 0; i < bitDepthValues.size(); i++) {
-            String val = bitDepthValues.get(i);
-            bitDepthPicker.getItems().add(val);
-        }
-        String defaultBitDepth = bitDepthValues.get((int) bitDepthValues.size() - 1);
-        bitDepthPicker.valueProperty().setValue(defaultBitDepth);
-        core.setProperty(core.getCameraDevice(), "BitDepth", defaultBitDepth);
-
-
-        PropertyItem exposure_prop = new PropertyItem();
-        exposure_prop.readFromCore(core, core.getCameraDevice(), "Exposure", false);
-
-
-        exposure.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory((int) exposure_prop.lowerLimit, (int) exposure_prop.upperLimit, Integer.valueOf(exposure_prop.value), 10));
-        exposure.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                core.setExposure(Double.valueOf(newValue));
-            } catch (Exception e) {
-                e.printStackTrace();
+        String camera = core.getCameraDevice();
+        if (camera != "") {
+            StrVector pixelTypeValues = core.getAllowedPropertyValues(camera, "PixelType");
+            for (int i = 0; i < pixelTypeValues.size(); i++) {
+                String val = pixelTypeValues.get(i);
+                pixelTypePicker.getItems().add(val);
             }
-        });
+            String defaultPixelType = pixelTypeValues.get((int) pixelTypeValues.size() - 1);
+            pixelTypePicker.valueProperty().setValue(defaultPixelType);
+            core.setProperty(camera, "PixelType", defaultPixelType);
+
+
+            StrVector bitDepthValues = core.getAllowedPropertyValues(camera, "BitDepth");
+            for (int i = 0; i < bitDepthValues.size(); i++) {
+                String val = bitDepthValues.get(i);
+                bitDepthPicker.getItems().add(val);
+            }
+            String defaultBitDepth = bitDepthValues.get((int) bitDepthValues.size() - 1);
+            bitDepthPicker.valueProperty().setValue(defaultBitDepth);
+            core.setProperty(camera, "BitDepth", defaultBitDepth);
+
+
+            PropertyItem exposure_prop = new PropertyItem();
+            exposure_prop.readFromCore(core, camera, "Exposure", false);
+
+
+            exposure.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory((int) exposure_prop.lowerLimit, (int) exposure_prop.upperLimit, Integer.valueOf(exposure_prop.value), 10));
+            exposure.valueProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    core.setExposure(Double.valueOf(newValue));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
 //        autoContrastToggle.selectedProperty().addListener((observable, oldValue, newValue) -> autoContrast = newValue);
 
 
-        pixelTypePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                core.setProperty(core.getCameraDevice(), "PixelType", newValue);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            pixelTypePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    core.setProperty(camera, "PixelType", newValue);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        bitDepthPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                core.setProperty(core.getCameraDevice(), "BitDepth", newValue);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            bitDepthPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    core.setProperty(camera, "BitDepth", newValue);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        }
 
     }
 

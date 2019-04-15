@@ -8,10 +8,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -32,18 +34,18 @@ public class MainController implements Initializable {
     @FXML
     private Pane viewPane;
     @FXML
-    private AnchorPane cameraPane;
+    private AnchorPane cameraControllerContainer;
     @FXML
-    private AnchorPane acquisitionPane;
+    private AnchorPane acquisitionControllerContainer;
     @FXML
     private AnchorPane histogramPanel;
+    @FXML
+    private HBox statusbarContainer;
+    @FXML
+    private AnchorPane stageStateContainer;
+
     private static CMMCore core;
-    @FXML
-    private ComboBox<String> unitComboBox;
-    @FXML
-    private HBox statusbarPane;
     private ImageCanvas imageCanvas;
-    private int unitMultiplier = 1;
     //    private boolean histogramDrawed;
 
     @Override
@@ -58,39 +60,22 @@ public class MainController implements Initializable {
 
         viewPane.getChildren().add(imageCanvas);
         viewPane.getChildren().add(Singletons.getStageControllerInstance());
+        viewPane.setFocusTraversable(true);
+        viewPane.setOnKeyPressed(Singletons.getStageControllerInstance().keyListener);
 
 
-        cameraPane.getChildren().add(Singletons.getCameraControllerInstance());
-        acquisitionPane.getChildren().add(Singletons.getAcquisitionControllerInstance());
-        statusbarPane.getChildren().add(Singletons.getStatusbarControllerInstance());
+        cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
+        acquisitionControllerContainer.getChildren().add(Singletons.getAcquisitionControllerInstance());
+        statusbarContainer.getChildren().add(Singletons.getStatusbarControllerInstance());
+        stageStateContainer.getChildren().add(Singletons.getStageStateInstance());
 
 
-        unitComboBox.getItems().addAll("0.1 µm", "µm", "mm", "cm");
-        unitComboBox.setValue("0.1 µm");
-        unitComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                switch (newValue) {
-                    case "0.1 µm":
-                        unitMultiplier = 1;
-                        break;
-                    case "µm":
-                        unitMultiplier = 10;
-                        break;
-                    case "mm":
-                        unitMultiplier = 10000;
-                        break;
-                    case "cm":
-                        unitMultiplier = 100000;
-                        break;
-                }
-            }
-        });
+
 
     }
 
     public void loadConfig() {
-        String configAddress = "config.cfg";
+        String configAddress = "config2.cfg";
 
         try {
 
