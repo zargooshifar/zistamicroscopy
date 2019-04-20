@@ -2,12 +2,8 @@ package main.Controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
-import ij.CompositeImage;
 import ij.ImagePlus;
-import ij.ImageStack;
 import ij.io.FileSaver;
-import ij.plugin.ContrastEnhancer;
-import ij.process.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,9 +24,7 @@ import org.micromanager.acquisition.AcquisitionManager;
 import org.micromanager.acquisition.AcquisitionWrapperEngine;
 import org.micromanager.acquisition.ProcessorStack;
 import org.micromanager.acquisition.TaggedImageQueue;
-import org.micromanager.utils.ImageUtils;
 import org.micromanager.utils.MDUtils;
-import org.micromanager.utils.MMScriptException;
 import org.micromanager.utils.PropertyItem;
 
 import java.io.File;
@@ -82,7 +76,10 @@ public class CameraController extends HBox {
         engine = new AcquisitionWrapperEngine(new AcquisitionManager());
         imageCanvas = ImageCanvas.getInstance();
 
+    }
 
+    public boolean isLive() {
+        return isLive;
     }
 
     public static void saveImagePlus(ImagePlus imp, JSONObject md, String path, String tiffFileName) {
@@ -113,6 +110,7 @@ public class CameraController extends HBox {
             pixelTypePicker.valueProperty().setValue(defaultPixelType);
             core.setProperty(camera, "PixelType", defaultPixelType);
 
+//            core.setProperty(camera,"Mode","Color Test Pattern");
 
             StrVector bitDepthValues = core.getAllowedPropertyValues(camera, "BitDepth");
             for (int i = 0; i < bitDepthValues.size(); i++) {
@@ -127,8 +125,9 @@ public class CameraController extends HBox {
             PropertyItem exposure_prop = new PropertyItem();
             exposure_prop.readFromCore(core, camera, "Exposure", false);
 
-
-            exposure.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory((int) exposure_prop.lowerLimit, (int) exposure_prop.upperLimit, Integer.valueOf(exposure_prop.value), 10));
+            int initialExposure = 50;
+            core.setProperty(camera, "Exposure", initialExposure);
+            exposure.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory((int) exposure_prop.lowerLimit, (int) exposure_prop.upperLimit, initialExposure, 10));
             exposure.valueProperty().addListener((observable, oldValue, newValue) -> {
                 try {
                     core.setExposure(Double.valueOf(newValue));
@@ -310,7 +309,9 @@ public class CameraController extends HBox {
 
     private void displayImageRoutine(TaggedImage image) {
 
-        Platform.runLater(() -> imageCanvas.updateImage(getImagePlus(image)));
+        Platform.runLater(() -> {
+            imageCanvas.updateImage(image);
+        });
 
     }
 
@@ -357,80 +358,11 @@ public class CameraController extends HBox {
     }
 
     private void saveTaggedImageFile(TaggedImage image, String path, String tiffFileName) {
-        saveImagePlus(getImagePlus(image), image.tags, path, tiffFileName);
+        saveImagePlus(imageCanvas.getImagePlus(image), image.tags, path, tiffFileName);
 
     }
 
-    private ImagePlus getImagePlus(TaggedImage image) {
 
-        int width = (int) core.getImageWidth();
-        int height = (int) core.getImageHeight();
-        ImageProcessor ip;
-        String pixelType = null;
-        Object img = image.pix;
-
-        ImagePlus imagePlus = null;
-
-        try {
-            pixelType = MDUtils.getPixelType(image.tags);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (MMScriptException e) {
-            e.printStackTrace();
-        }
-
-        if (pixelType.equals("GRAY8")) {
-            ip = new ByteProcessor(width, height);
-            ip.setPixels(img);
-            if (autoContrast) {
-                new ContrastEnhancer().stretchHistogram(ip, 0.5);
-            }
-            imagePlus = new ImagePlus("", ip);
-        } else if (pixelType.equals("GRAY16")) {
-            ip = new ShortProcessor(width, height);
-            ip.setPixels(img);
-            if (autoContrast) {
-                new ContrastEnhancer().stretchHistogram(ip, 0.5);
-            }
-            imagePlus = new ImagePlus("", ip);
-
-        } else if (pixelType.equals("GRAY32")) {
-            ip = new FloatProcessor(width, height);
-            ip.setPixels(img);
-            if (autoContrast) {
-                new ContrastEnhancer().stretchHistogram(ip, 0.5);
-            }
-            imagePlus = new ImagePlus("", ip);
-
-        } else if (pixelType.equals("RGB32")) {
-            byte[][] planes = ImageUtils.getColorPlanesFromRGB32((byte[]) img);
-            ColorProcessor cp = new ColorProcessor(width, height);
-            cp.setRGB(planes[0], planes[1], planes[2]);
-            if (autoContrast) {
-                new ContrastEnhancer().stretchHistogram(cp, 0.5);
-            }
-            imagePlus = new ImagePlus("", cp);
-
-        } else if (pixelType.equals("RGB64")) {
-            short[][] planes = ImageUtils.getColorPlanesFromRGB64((short[]) img);
-            ImageStack stack = new ImageStack(width, height);
-            stack.addSlice("Red", planes[0]);
-            stack.addSlice("Green", planes[1]);
-            stack.addSlice("Blue", planes[2]);
-            ImagePlus imp = new ImagePlus("", stack);
-            imp.setDimensions(3, 1, 1);
-            imp = new CompositeImage(imp, CompositeImage.COLOR);
-            if (autoContrast) {
-                new ContrastEnhancer().stretchHistogram(imp, 0.5);
-            }
-            imagePlus = imp;
-
-        }
-
-
-        return imagePlus;
-
-    }
 
     @FXML
     void doCapture(ActionEvent event) {
@@ -439,8 +371,7 @@ public class CameraController extends HBox {
                 core.snapImage();
                 TaggedImage image = core.getTaggedImage();
 
-                imageCanvas.updateImage(getImagePlus(image));
-
+                imageCanvas.updateImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -6,8 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: null;"
-      fx:controller="main.Controllers.MainController">
+<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: null;" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.MainController">
     <children>
         <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0" stylesheets="@assests/css/styles.css"
                  tabClosingPolicy="UNAVAILABLE">
@@ -17,6 +17,49 @@
                         <HBox alignment="CENTER_LEFT" maxHeight="100.0" minHeight="100.0" prefHeight="100.0"
                               style="-fx-background-color: null;">
                             <children>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                                    <children>
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
+                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
+                                                   prefWidth="75.0" text="New">
+                                            <graphic>
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@assests/icons/file.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </JFXButton>
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
+                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
+                                                   prefWidth="75.0" text="Open">
+                                            <graphic>
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@assests/icons/open.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </JFXButton>
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
+                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
+                                                   prefWidth="75.0" text="Save">
+                                            <graphic>
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@assests/icons/save.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </JFXButton>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="4.0" right="4.0"/>
+                                    </HBox.margin>
+                                </HBox>
                                 <Separator orientation="VERTICAL" prefHeight="200.0"/>
                                 <Separator orientation="VERTICAL" prefHeight="200.0"/>
                                 <Separator orientation="VERTICAL" prefHeight="200.0"/>
@@ -48,14 +91,6 @@
                                       style="-fx-background-color: #fff;">
                                     <children>
                                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                            <children>
-                                                <JFXButton fx:id="viewScale" onAction="#changeViewScale"
-                                                           prefWidth="100.0" text="Change View Scale">
-                                                    <VBox.margin>
-                                                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
-                                                    </VBox.margin>
-                                                </JFXButton>
-                                            </children>
                                             <HBox.margin>
                                                 <Insets left="8.0" right="8.0"/>
                                             </HBox.margin>
@@ -100,7 +135,7 @@
                 <VBox alignment="TOP_CENTER" maxWidth="36.0" minWidth="36.0" prefWidth="36.0" spacing="1.0">
                     <children>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#setCursorNormal" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -110,17 +145,38 @@
                             </graphic>
                         </Button>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#setCursorMove" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/cursor_hand.png"/>
+                                        <Image url="@assests/icons/cursor_hand%20(2).png"/>
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#changeAspectRatio" prefHeight="32.0"
+                                prefWidth="32.0">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@assests/icons/scale.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
+                                mnemonicParsing="false" onAction="#zoomFit" prefHeight="32.0" prefWidth="32.0">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@assests/icons/zoom_fit.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
+                                mnemonicParsing="false" onAction="#zoomIn" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -130,7 +186,7 @@
                             </graphic>
                         </Button>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#zoomOut" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -160,7 +216,7 @@
                             </graphic>
                         </Button>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#flipHorizentally" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -170,7 +226,7 @@
                             </graphic>
                         </Button>
                         <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                                mnemonicParsing="false" onAction="#flipVertically" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -186,7 +242,8 @@
                 </VBox>
                 <StackPane alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0">
                     <children>
-                        <Pane fx:id="viewPane"/>
+                        <StackPane fx:id="imageCanvasContainer" prefHeight="150.0" prefWidth="200.0"
+                                   style="-fx-background-color: #fff;"/>
                     </children>
                 </StackPane>
                 <VBox maxWidth="300.0" minWidth="250.0" prefWidth="250.0">

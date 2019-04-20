@@ -25,8 +25,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
 
-//        ResizeHelper.addResizeListener(primaryStage);
-
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
             System.exit(0);

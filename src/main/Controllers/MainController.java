@@ -4,19 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import ij.ImagePlus;
 import ij.gui.HistogramWindow;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import main.ImageUtils.ImageCanvas;
 import main.Singletons;
 import mmcorej.CMMCore;
@@ -32,7 +28,7 @@ public class MainController implements Initializable {
 
 
     @FXML
-    private Pane viewPane;
+    private StackPane imageCanvasContainer;
     @FXML
     private AnchorPane cameraControllerContainer;
     @FXML
@@ -55,13 +51,12 @@ public class MainController implements Initializable {
         loadConfig();
 
         imageCanvas = ImageCanvas.getInstance();
-        imageCanvas.setSizeListener(viewPane);
+        imageCanvas.setSizeListener(imageCanvasContainer);
 
 
-        viewPane.getChildren().add(imageCanvas);
-        viewPane.getChildren().add(Singletons.getStageControllerInstance());
-        viewPane.setFocusTraversable(true);
-        viewPane.setOnKeyPressed(Singletons.getStageControllerInstance().keyListener);
+        imageCanvasContainer.getChildren().add(imageCanvas);
+        imageCanvasContainer.setFocusTraversable(true);
+        imageCanvasContainer.setOnKeyPressed(Singletons.getStageControllerInstance().keyListener);
 
 
         cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
@@ -69,7 +64,14 @@ public class MainController implements Initializable {
         statusbarContainer.getChildren().add(Singletons.getStatusbarControllerInstance());
         stageStateContainer.getChildren().add(Singletons.getStageStateInstance());
 
+        imageCanvasContainer.getChildren().add(Singletons.getStageControllerInstance());
 
+
+        try {
+            Singletons.getCameraControllerInstance().takeLiveStream(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -129,27 +131,61 @@ public class MainController implements Initializable {
     }
 
 
+    @FXML
+    void setCursorMove(ActionEvent event) {
+        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Move);
+
+    }
 
     @FXML
-    void changeViewScale(ActionEvent event) {
+    void setCursorNormal(ActionEvent event) {
+        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Normal);
+    }
+
+    @FXML
+    void changeAspectRatio(ActionEvent event) {
         imageCanvas.setKeepAspectRatio(!imageCanvas.getKeepAspectRatio());
     }
 
     @FXML
     void rotateLeft(ActionEvent event) {
         imageCanvas.rotate(-90);
-
     }
 
     @FXML
     void rotateRight(ActionEvent event) {
         imageCanvas.rotate(90);
+    }
 
+    @FXML
+    void zoomIn(ActionEvent event) {
+        imageCanvas.zoomIn();
+    }
+
+    @FXML
+    void zoomOut(ActionEvent event) {
+        imageCanvas.zoomOut();
+    }
+
+    @FXML
+    void zoomFit(ActionEvent event) {
+        imageCanvas.zoomFit();
+    }
+
+
+    @FXML
+    void flipHorizentally(ActionEvent event) {
+        imageCanvas.flipHorizentally();
+    }
+
+    @FXML
+    void flipVertically(ActionEvent event) {
+        imageCanvas.flipVertically();
     }
 
 
     public void invalidInput() {
-        JFXSnackbar bar = new JFXSnackbar(viewPane);
+        JFXSnackbar bar = new JFXSnackbar(imageCanvasContainer);
         JFXButton button = new JFXButton();
         button.setText("Invalid Input!");
         button.setStyle("-fx-background-color: #fff;");

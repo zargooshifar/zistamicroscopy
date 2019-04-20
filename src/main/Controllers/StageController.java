@@ -5,8 +5,11 @@ import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.Singletons;
 import mmcorej.CMMCore;
@@ -76,12 +79,17 @@ public class StageController extends GridPane {
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
-
         try {
             fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        StackPane.setAlignment(this, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(this, new Insets(0, 0, 24, 0));
+
+
+
         core = Singletons.getCoreInstance();
 
         toggleButton.setOnMouseDragged(event -> {

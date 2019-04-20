@@ -45,8 +45,3 @@
     -fx-border-color: transparent;
 }
 
-.jfx-button {
-    -jfx-button-type: RAISED;
-    -fx-background-color: #77f;
-    -fx-text-fill: white;
-}
