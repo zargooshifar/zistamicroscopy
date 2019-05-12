@@ -240,10 +240,9 @@
                         <Insets top="2.0"/>
                     </padding>
                 </VBox>
-                <StackPane alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0">
+                <StackPane alignment="BOTTOM_CENTER">
                     <children>
-                        <StackPane fx:id="imageCanvasContainer" prefHeight="150.0" prefWidth="200.0"
-                                   style="-fx-background-color: #fff;"/>
+                        <StackPane fx:id="imageCanvasContainer" style="-fx-background-color: #fff;"/>
                     </children>
                 </StackPane>
                 <VBox maxWidth="300.0" minWidth="250.0" prefWidth="250.0">

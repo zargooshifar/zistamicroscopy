@@ -24,6 +24,7 @@ import org.micromanager.acquisition.AcquisitionManager;
 import org.micromanager.acquisition.AcquisitionWrapperEngine;
 import org.micromanager.acquisition.ProcessorStack;
 import org.micromanager.acquisition.TaggedImageQueue;
+import org.micromanager.utils.ImageUtils;
 import org.micromanager.utils.MDUtils;
 import org.micromanager.utils.PropertyItem;
 
@@ -125,7 +126,7 @@ public class CameraController extends HBox {
             PropertyItem exposure_prop = new PropertyItem();
             exposure_prop.readFromCore(core, camera, "Exposure", false);
 
-            int initialExposure = 50;
+            int initialExposure = 100;
             core.setProperty(camera, "Exposure", initialExposure);
             exposure.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory((int) exposure_prop.lowerLimit, (int) exposure_prop.upperLimit, initialExposure, 10));
             exposure.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -358,7 +359,8 @@ public class CameraController extends HBox {
     }
 
     private void saveTaggedImageFile(TaggedImage image, String path, String tiffFileName) {
-        saveImagePlus(imageCanvas.getImagePlus(image), image.tags, path, tiffFileName);
+        ImagePlus imp = new ImagePlus("", ImageUtils.makeProcessor(image));
+        saveImagePlus(imp, image.tags, path, tiffFileName);
 
     }
 

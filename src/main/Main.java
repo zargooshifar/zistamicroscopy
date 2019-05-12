@@ -7,8 +7,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 
 public class Main extends Application {
+
+
+    public static final ScheduledExecutorService scheduleThreadPool = Executors.newScheduledThreadPool(2);
+
+    public static final int CORE_NUMBER = getCoreNumber() > 1 ? getCoreNumber() - 1 : getCoreNumber();
+
+    private static final ExecutorService service = Executors.newFixedThreadPool(CORE_NUMBER);
 
 
     public static void main(String[] args) {
@@ -30,12 +41,33 @@ public class Main extends Application {
             System.exit(0);
         });
 
+
     }
 
     @Override
     public void stop() throws Exception {
         super.stop();
 
+    }
+
+
+    public static ExecutorService getThreadPool() {
+        return service;
+    }
+
+    private static ExecutorService threadQueue = Executors.newSingleThreadExecutor();
+
+    public static ExecutorService getThreadQueue() {
+        return threadQueue;
+    }
+
+    public static ScheduledExecutorService getScheduledThreadPool() {
+        return scheduleThreadPool;
+    }
+
+
+    public static int getCoreNumber() {
+        return Runtime.getRuntime().availableProcessors();
     }
 }
 

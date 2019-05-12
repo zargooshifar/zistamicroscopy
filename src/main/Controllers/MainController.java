@@ -3,8 +3,7 @@ package main.Controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import ij.ImagePlus;
-import ij.gui.HistogramWindow;
-import javafx.embed.swing.SwingNode;
+import ij.gui.Toolbar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,9 +16,11 @@ import main.ImageUtils.ImageCanvas;
 import main.Singletons;
 import mmcorej.CMMCore;
 import mmcorej.StrVector;
+import org.micromanager.utils.ImageUtils;
 import org.micromanager.utils.PropertyItem;
+import org.scijava.Context;
+import org.scijava.plugin.Parameter;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -40,9 +41,11 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane stageStateContainer;
 
+    @Parameter
+    Context context;
+
     private static CMMCore core;
-    private ImageCanvas imageCanvas;
-    //    private boolean histogramDrawed;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,14 +53,24 @@ public class MainController implements Initializable {
 
         loadConfig();
 
-        imageCanvas = ImageCanvas.getInstance();
-        imageCanvas.setSizeListener(imageCanvasContainer);
+        ImagePlus imp = null;
+
+        try {
+            core.snapImage();
+            imp = new ImagePlus("", ImageUtils.makeProcessor(core.getTaggedImage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-        imageCanvasContainer.getChildren().add(imageCanvas);
-        imageCanvasContainer.setFocusTraversable(true);
-        imageCanvasContainer.setOnKeyPressed(Singletons.getStageControllerInstance().keyListener);
+        Toolbar toolbar = new Toolbar();
+        Toolbar.getInstance().setTool(Toolbar.OVAL);
 
+
+        ImageCanvas ic = ImageCanvas.getInstance();
+
+
+        imageCanvasContainer.getChildren().add(ic.getSwingNode(imageCanvasContainer));
 
         cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
         acquisitionControllerContainer.getChildren().add(Singletons.getAcquisitionControllerInstance());
@@ -65,14 +78,6 @@ public class MainController implements Initializable {
         stageStateContainer.getChildren().add(Singletons.getStageStateInstance());
 
         imageCanvasContainer.getChildren().add(Singletons.getStageControllerInstance());
-
-
-        try {
-            Singletons.getCameraControllerInstance().takeLiveStream(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
     }
 
@@ -90,19 +95,19 @@ public class MainController implements Initializable {
 
     }
 
-    private void updateHistogram(ImagePlus imagePlus) {
-
-        HistogramWindow histogramWindow = new HistogramWindow(imagePlus);
-        histogramWindow.showHistogram(imagePlus, 0);
-
-        JPanel jPanel = new JPanel();
-        jPanel.add(histogramWindow.getCanvas());
-        SwingNode swingNode = new SwingNode();
-        swingNode.setContent(jPanel);
-
-        histogramPanel.getChildren().add(swingNode);
-
-    }
+//    private void updateHistogram(ImagePlus imagePlus) {
+//
+//        HistogramWindow histogramWindow = new HistogramWindow(imagePlus);
+//        histogramWindow.showHistogram(imagePlus, 0);
+//
+//        JPanel jPanel = new JPanel();
+//        jPanel.add(histogramWindow.getCanvas());
+//        SwingNode swingNode = new SwingNode();
+//        swingNode.setContent(jPanel);
+//
+//        histogramPanel.getChildren().add(swingNode);
+//
+//    }
 
     public ArrayList<PropertyItem> getProps() {
         ArrayList<PropertyItem> propList_ = new ArrayList<>();
@@ -133,54 +138,56 @@ public class MainController implements Initializable {
 
     @FXML
     void setCursorMove(ActionEvent event) {
-        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Move);
+//        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Move);
 
     }
 
     @FXML
     void setCursorNormal(ActionEvent event) {
-        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Normal);
+//        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Normal);
+//        System.out.println(imageWindow.getCanvas().getShowAllROIs());
+
     }
 
     @FXML
     void changeAspectRatio(ActionEvent event) {
-        imageCanvas.setKeepAspectRatio(!imageCanvas.getKeepAspectRatio());
+//        imageCanvas.setKeepAspectRatio(!imageCanvas.getKeepAspectRatio());
     }
 
     @FXML
     void rotateLeft(ActionEvent event) {
-        imageCanvas.rotate(-90);
+//        imageCanvas.rotate(-90);
     }
 
     @FXML
     void rotateRight(ActionEvent event) {
-        imageCanvas.rotate(90);
+//        imageCanvas.rotate(90);
     }
 
     @FXML
     void zoomIn(ActionEvent event) {
-        imageCanvas.zoomIn();
+//        imageCanvas.zoomIn();
     }
 
     @FXML
     void zoomOut(ActionEvent event) {
-        imageCanvas.zoomOut();
+//        imageCanvas.zoomOut();
     }
 
     @FXML
     void zoomFit(ActionEvent event) {
-        imageCanvas.zoomFit();
+//        imageCanvas.zoomFit();
     }
 
 
     @FXML
     void flipHorizentally(ActionEvent event) {
-        imageCanvas.flipHorizentally();
+//        imageCanvas.flipHorizentally();
     }
 
     @FXML
     void flipVertically(ActionEvent event) {
-        imageCanvas.flipVertically();
+//        imageCanvas.flipVertically();
     }
 
 
