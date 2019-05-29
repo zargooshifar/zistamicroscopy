@@ -2,12 +2,16 @@ package main.Controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
+import ij.ImageJ;
 import ij.ImagePlus;
+import ij.Prefs;
 import ij.gui.Toolbar;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,12 +19,15 @@ import javafx.scene.layout.StackPane;
 import main.ImageUtils.ImageCanvas;
 import main.Singletons;
 import mmcorej.CMMCore;
+import mmcorej.MMCoreJ;
 import mmcorej.StrVector;
 import org.micromanager.utils.ImageUtils;
 import org.micromanager.utils.PropertyItem;
 import org.scijava.Context;
 import org.scijava.plugin.Parameter;
 
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -40,6 +47,42 @@ public class MainController implements Initializable {
     private HBox statusbarContainer;
     @FXML
     private AnchorPane stageStateContainer;
+
+    @FXML
+    private Button rectangleToolButton;
+
+
+
+    @FXML
+    private Button ovalToolButton;
+
+
+    @FXML
+    private Button polygonToolButton;
+
+    @FXML
+    private Button lineToolButton;
+
+    @FXML
+    private Button freeLineToolButton;
+
+    @FXML
+    private Button angleToolButton;
+
+    @FXML
+    private Button pointToolButton;
+
+    @FXML
+    private Button multiPointToolButton;
+
+    @FXML
+    private Button arrowToolButton;
+
+    @FXML
+    private Button handToolButton;
+
+    @FXML
+    private Button zoomToolButton;
 
     @Parameter
     Context context;
@@ -62,16 +105,22 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
 
+//        ij.gui.ImageCanvas imageCanvas = new ij.gui.ImageCanvas(imp);
+//
+//        JPanel jPanel = new JPanel();
+//        jPanel.setSize(500,500);
+//        System.out.println(jPanel.getWidth()+ " "+ jPanel.getHeight());
+//        jPanel.add(imageCanvas);
+//        SwingNode node = new SwingNode();
+//        node.setContent(jPanel);
+//        imageCanvasContainer.getChildren().add(node);
+
 
         Toolbar toolbar = new Toolbar();
-        Toolbar.getInstance().setTool(Toolbar.OVAL);
-
 
         ImageCanvas ic = ImageCanvas.getInstance();
 
-
         imageCanvasContainer.getChildren().add(ic.getSwingNode(imageCanvasContainer));
-
         cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
         acquisitionControllerContainer.getChildren().add(Singletons.getAcquisitionControllerInstance());
         statusbarContainer.getChildren().add(Singletons.getStatusbarControllerInstance());
@@ -95,99 +144,130 @@ public class MainController implements Initializable {
 
     }
 
-//    private void updateHistogram(ImagePlus imagePlus) {
-//
-//        HistogramWindow histogramWindow = new HistogramWindow(imagePlus);
-//        histogramWindow.showHistogram(imagePlus, 0);
-//
-//        JPanel jPanel = new JPanel();
-//        jPanel.add(histogramWindow.getCanvas());
-//        SwingNode swingNode = new SwingNode();
-//        swingNode.setContent(jPanel);
-//
-//        histogramPanel.getChildren().add(swingNode);
-//
-//    }
 
-    public ArrayList<PropertyItem> getProps() {
-        ArrayList<PropertyItem> propList_ = new ArrayList<>();
-        try {
-            StrVector devices = core.getLoadedDevices();
 
-            propList_.clear();
-
-            for (int i = 0; i < devices.size(); i++) {
-                StrVector properties = core.getDevicePropertyNames(devices.get(i));
-                for (int j = 0; j < properties.size(); j++) {
-                    PropertyItem item = new PropertyItem();
-                    item.readFromCore(core, devices.get(i), properties.get(j), false);
-
-                    if ((!item.readOnly) && !item.preInit) {
-                        propList_.add(item);
-                    }
-                }
-
-            }
-        } catch (Exception e) {
-
-        }
-        return propList_;
+    @FXML
+    void selectAngleTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.ANGLE);
+        refreshToolbar();
 
     }
 
 
     @FXML
-    void setCursorMove(ActionEvent event) {
-//        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Move);
+    void selectFreeLineTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.FREEROI);
+        refreshToolbar();
 
     }
 
     @FXML
-    void setCursorNormal(ActionEvent event) {
-//        imageCanvas.setCursorMode(ImageCanvas.CursorMode.Normal);
-//        System.out.println(imageWindow.getCanvas().getShowAllROIs());
+    void selectLineTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.LINE);
+        refreshToolbar();
 
+    }
+
+    @FXML
+    void selectMultiPointTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.UNUSED);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectOvalTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.OVAL);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectPointTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.POINT);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectPolygonTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.POLYGON);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectRectangleTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.RECTANGLE);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectArrowTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.UNUSED);
+        refreshToolbar();
+
+    }
+
+    @FXML
+    void selectHandTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.HAND);
+        refreshToolbar();
+    }
+
+    @FXML
+    void selectZoomTool(ActionEvent event) {
+        Toolbar.getInstance().setTool(Toolbar.MAGNIFIER);
+        refreshToolbar();
+    }
+
+
+    private void refreshToolbar(){
+        rectangleToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.RECTANGLE);
+        zoomToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.MAGNIFIER);
+        handToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.HAND);
+        arrowToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.UNUSED);
+        ovalToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.OVAL);
+        polygonToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.POLYGON);
+        lineToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.LINE);
+        freeLineToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.FREEROI);
+        angleToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.ANGLE);
+        pointToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.POINT);
+        multiPointToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.UNUSED);
     }
 
     @FXML
     void changeAspectRatio(ActionEvent event) {
-//        imageCanvas.setKeepAspectRatio(!imageCanvas.getKeepAspectRatio());
+
     }
 
     @FXML
+    void fitZoom(ActionEvent event) {
+        ImageCanvas.getInstance().zoom100Percent();
+    }
+
+    @FXML
+    void flipHorizental(ActionEvent event) {
+        ImageCanvas.getInstance().flipHorizental();
+    }
+
+    @FXML
+    void flipVertical(ActionEvent event) {
+        ImageCanvas.getInstance().flipVertical();
+    }
+
+
+
+
+    @FXML
     void rotateLeft(ActionEvent event) {
-//        imageCanvas.rotate(-90);
+        ImageCanvas.getInstance().rotateLeft();
     }
 
     @FXML
     void rotateRight(ActionEvent event) {
-//        imageCanvas.rotate(90);
-    }
-
-    @FXML
-    void zoomIn(ActionEvent event) {
-//        imageCanvas.zoomIn();
-    }
-
-    @FXML
-    void zoomOut(ActionEvent event) {
-//        imageCanvas.zoomOut();
-    }
-
-    @FXML
-    void zoomFit(ActionEvent event) {
-//        imageCanvas.zoomFit();
-    }
-
-
-    @FXML
-    void flipHorizentally(ActionEvent event) {
-//        imageCanvas.flipHorizentally();
-    }
-
-    @FXML
-    void flipVertically(ActionEvent event) {
-//        imageCanvas.flipVertically();
+        ImageCanvas.getInstance().rotateRight();
     }
 
 

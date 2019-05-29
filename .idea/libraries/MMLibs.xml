@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="MMLibs">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/MMLibs" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/lib/MMLibs" />
+    </NATIVE>
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/MMLibs" recursive="false" />
+  </library>
+</component>

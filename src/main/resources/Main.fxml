@@ -2,108 +2,103 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: null;" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.MainController">
+<?import com.pixelduke.control.Ribbon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.MainController">
     <children>
-        <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0" stylesheets="@assests/css/styles.css"
-                 tabClosingPolicy="UNAVAILABLE">
+        <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0" stylesheets="@assests/css/styles.css" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Home">
                     <content>
-                        <HBox alignment="CENTER_LEFT" maxHeight="100.0" minHeight="100.0" prefHeight="100.0"
-                              style="-fx-background-color: null;">
+                        <HBox alignment="CENTER_LEFT" maxHeight="100.0" minHeight="100.0" prefHeight="100.0" style="-fx-background-color: null;">
                             <children>
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                                     <children>
-                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
-                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
-                                                   prefWidth="75.0" text="New">
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0" maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0" prefWidth="75.0" text="New">
                                             <graphic>
-                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
-                                                           preserveRatio="true">
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
-                                                        <Image url="@assests/icons/file.png"/>
+                                                        <Image url="@assests/icons/file.png" />
                                                     </image>
                                                 </ImageView>
                                             </graphic>
                                         </JFXButton>
-                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
-                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
-                                                   prefWidth="75.0" text="Open">
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0" maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0" prefWidth="75.0" text="Open">
                                             <graphic>
-                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
-                                                           preserveRatio="true">
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
-                                                        <Image url="@assests/icons/open.png"/>
+                                                        <Image url="@assests/icons/open.png" />
                                                     </image>
                                                 </ImageView>
                                             </graphic>
                                         </JFXButton>
-                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0"
-                                                   maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0"
-                                                   prefWidth="75.0" text="Save">
+                                        <JFXButton contentDisplay="TOP" ellipsisString="" maxHeight="85.0" maxWidth="75.0" minHeight="85.0" minWidth="75.0" prefHeight="85.0" prefWidth="75.0" text="Save">
                                             <graphic>
-                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true"
-                                                           preserveRatio="true">
+                                                <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
-                                                        <Image url="@assests/icons/save.png"/>
+                                                        <Image url="@assests/icons/save.png" />
                                                     </image>
                                                 </ImageView>
                                             </graphic>
                                         </JFXButton>
                                     </children>
                                     <HBox.margin>
-                                        <Insets left="4.0" right="4.0"/>
+                                        <Insets left="4.0" right="4.0" />
                                     </HBox.margin>
                                 </HBox>
-                                <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                <Separator orientation="VERTICAL" prefHeight="200.0"/>
+                                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                <Separator orientation="VERTICAL" prefHeight="200.0" />
                                 <VBox alignment="CENTER" spacing="4.0">
                                     <HBox.margin>
-                                        <Insets left="8.0" right="8.0"/>
+                                        <Insets left="8.0" right="8.0" />
                                     </HBox.margin>
                                 </VBox>
-                                <Separator orientation="VERTICAL" prefHeight="200.0"/>
+                                <Separator orientation="VERTICAL" prefHeight="200.0" />
                             </children>
                             <padding>
-                                <Insets bottom="4.0" top="4.0"/>
+                                <Insets bottom="4.0" top="4.0" />
                             </padding>
                         </HBox>
                     </content>
                 </Tab>
                 <Tab text="Camera">
                     <content>
-                        <AnchorPane fx:id="cameraControllerContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                    prefWidth="200.0" style="-fx-background-color: #fff;"/>
+                        <AnchorPane fx:id="cameraControllerContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
                 <Tab text="View">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    style="-fx-background-color: #fff;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0"
-                                      style="-fx-background-color: #fff;">
+                                <HBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0">
                                     <children>
                                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                             <HBox.margin>
-                                                <Insets left="8.0" right="8.0"/>
+                                                <Insets left="8.0" right="8.0" />
                                             </HBox.margin>
                                         </VBox>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <Separator orientation="VERTICAL" prefHeight="200.0"/>
-                                        <JFXToggleButton fx:id="autoContrastToggle" contentDisplay="RIGHT"
-                                                         text="Auto Contrast and Brightness" wrapText="true"/>
+                                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                        <JFXToggleButton fx:id="autoContrastToggle" contentDisplay="RIGHT" text="Auto Contrast and Brightness" wrapText="true" />
                                     </children>
                                     <padding>
-                                        <Insets bottom="4.0" top="4.0"/>
+                                        <Insets bottom="4.0" top="4.0" />
                                     </padding>
                                 </HBox>
                             </children>
@@ -112,20 +107,17 @@
                 </Tab>
                 <Tab text="Acquisition">
                     <content>
-                        <AnchorPane fx:id="acquisitionControllerContainer" minHeight="0.0" minWidth="0.0"
-                                    prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #fff;"/>
+                        <AnchorPane fx:id="acquisitionControllerContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
                 <Tab text="Statistics">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    style="-fx-background-color: #fff;"/>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #fff;" />
                     </content>
                 </Tab>
                 <Tab text="Configuration">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                                    style="-fx-background-color: #fff;"/>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #fff;" />
                     </content>
                 </Tab>
             </tabs>
@@ -134,133 +126,185 @@
             <items>
                 <VBox alignment="TOP_CENTER" maxWidth="36.0" minWidth="36.0" prefWidth="36.0" spacing="1.0">
                     <children>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#setCursorNormal" prefHeight="32.0" prefWidth="32.0">
+                  <Button fx:id="arrowToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectArrowTool" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_cursor_24px_1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="handToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectHandTool" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_hand_cursor_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="zoomToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectZoomTool" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_search_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="fitZoomButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#fitZoom" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_one_to_one_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="changeAspectRatioButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#changeAspectRatio" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_aspect_ratio_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="flipHorizentalButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#flipHorizental" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_flip_vertical_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="flipVerticalButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#flipVertical" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assests/icons/icons8_flip_horizontal_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="rotateRightButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#rotateRight" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@assests/icons/icons8_rotate_right_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="rotateLeftButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#rotateLeft" prefHeight="32.0" prefWidth="32.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@assests/icons/icons8_rotate_left_24px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="2.0" top="2.0" />
+                     </VBox.margin>
+                  </Separator>
+                        <Button fx:id="rectangleToolButton" defaultButton="true" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectRectangleTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/cursor_arrow.png"/>
+                                        <Image url="@assests/icons/icons8_rectangle_stroked_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#setCursorMove" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="ovalToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectOvalTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/cursor_hand%20(2).png"/>
+                                        <Image url="@assests/icons/icons8_circle_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#changeAspectRatio" prefHeight="32.0"
-                                prefWidth="32.0">
+                        <Button fx:id="polygonToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectPolygonTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/scale.png"/>
+                                        <Image url="@assests/icons/icons8_polygon_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#zoomFit" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="lineToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectLineTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/zoom_fit.png"/>
+                                        <Image url="@assests/icons/icons8_line_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#zoomIn" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="freeLineToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectFreeLineTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/zoomin.png"/>
+                                        <Image url="@assests/icons/freehand.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#zoomOut" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="angleToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectAngleTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/zoomout.png"/>
+                                        <Image url="@assests/icons/icons8_inclination_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#rotateLeft" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="pointToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectPointTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/rotate_left.png"/>
+                                        <Image url="@assests/icons/icons8_plus_math_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#rotateRight" prefHeight="32.0" prefWidth="32.0">
+                        <Button fx:id="multiPointToolButton" ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#selectMultiPointTool" prefHeight="32.0" prefWidth="32.0">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@assests/icons/rotate_right.png"/>
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#flipHorizentally" prefHeight="32.0" prefWidth="32.0">
-                            <graphic>
-                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@assests/icons/flip_vertical.png"/>
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                        <Button ellipsisString="" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                                mnemonicParsing="false" onAction="#flipVertically" prefHeight="32.0" prefWidth="32.0">
-                            <graphic>
-                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@assests/icons/flip_horizental.png"/>
+                                        <Image url="@assests/icons/icons8_scatter_plot_24px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
                     </children>
                     <padding>
-                        <Insets top="2.0"/>
+                        <Insets top="2.0" />
                     </padding>
                 </VBox>
-                <StackPane alignment="BOTTOM_CENTER">
-                    <children>
-                        <StackPane fx:id="imageCanvasContainer" style="-fx-background-color: #fff;"/>
-                    </children>
-                </StackPane>
+                  <StackPane fx:id="imageCanvasContainer" />
                 <VBox maxWidth="300.0" minWidth="250.0" prefWidth="250.0">
                     <children>
                         <TitledPane minWidth="250.0" text="Stage State" VBox.vgrow="ALWAYS">
                             <content>
-                                <AnchorPane fx:id="stageStateContainer"/>
+                                <AnchorPane fx:id="stageStateContainer" />
                             </content>
                         </TitledPane>
                         <TitledPane text="Histogram">
                             <content>
-                                <AnchorPane fx:id="histogramPanel" minHeight="0.0" minWidth="0.0" prefHeight="370.0"
-                                            prefWidth="321.0"/>
+                                <AnchorPane fx:id="histogramPanel" minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="321.0" />
                             </content>
                         </TitledPane>
                         <TitledPane animated="false">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>
                         </TitledPane>
                     </children>
@@ -269,8 +313,9 @@
         </SplitPane>
         <HBox id="HBox" fx:id="statusbarContainer" alignment="CENTER" spacing="5.0" VBox.vgrow="NEVER">
             <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
             </padding>
         </HBox>
+      <Ribbon />
     </children>
 </VBox>

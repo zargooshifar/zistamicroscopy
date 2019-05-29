@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro8.JMetro;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,8 +33,11 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("resources/Main.fxml"));
         primaryStage.setTitle("Zistagene Microscopy");
 //        primaryStage.initStyle(StageStyle.UNDECORATED);
-
-        primaryStage.setScene(new Scene(root, 800, 600));
+        Scene scene = new Scene(root,800,600);
+//        new JMetro(JMetro.Style.LIGHT).applyTheme(root);
+//        scene.getStylesheets().add("main/resources/assests/css/brume.css");
+        scene.getStylesheets().add("main/resources/assests/css/dark-theme.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(event -> {

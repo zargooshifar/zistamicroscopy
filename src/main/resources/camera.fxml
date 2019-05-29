@@ -1,82 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0"
-         style="-fx-background-color: #fff;" type="HBox">
+
+<fx:root alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="900.0" type="HBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
     <children>
         <HBox alignment="CENTER" prefHeight="100.0" spacing="8.0">
             <children>
-                <JFXButton fx:id="btn_capture" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0"
-                           onAction="#doCapture" prefHeight="80.0" prefWidth="80.0" text="Capture"
-                           textAlignment="CENTER" wrapText="true"/>
-                <JFXButton fx:id="btn_capture_save" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0"
-                           onAction="#doCaptureSave" prefHeight="80.0" prefWidth="80.0" text="Capture and Save"
-                           textAlignment="CENTER" wrapText="true"/>
-                <JFXButton fx:id="btn_startlive" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0"
-                           onMouseClicked="#takeLiveStream" prefHeight="80.0" prefWidth="80.0" text="Start Live Stream"
-                           textAlignment="CENTER" wrapText="true"/>
+                <JFXButton fx:id="btn_capture" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" onAction="#doCapture" prefHeight="80.0" prefWidth="80.0" text="Capture" textAlignment="CENTER" wrapText="true" />
+                <JFXButton fx:id="btn_capture_save" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" onAction="#doCaptureSave" prefHeight="80.0" prefWidth="80.0" text="Capture and Save" textAlignment="CENTER" wrapText="true" />
+                <JFXButton fx:id="btn_startlive" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" onMouseClicked="#takeLiveStream" prefHeight="80.0" prefWidth="80.0" text="Start Live Stream" textAlignment="CENTER" wrapText="true" />
             </children>
             <padding>
-                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
             </padding>
         </HBox>
-        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
             <children>
                 <HBox alignment="CENTER" fillHeight="false" prefWidth="200.0" spacing="8.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exposure time" HBox.hgrow="ALWAYS"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Spinner fx:id="exposure" prefWidth="70.0"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exposure time" HBox.hgrow="ALWAYS" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Spinner fx:id="exposure" prefWidth="70.0" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" prefWidth="200.0" spacing="8.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gain" HBox.hgrow="ALWAYS"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Spinner fx:id="gain" prefWidth="70.0"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gain" HBox.hgrow="ALWAYS" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Spinner fx:id="gain" prefWidth="70.0" />
                     </children>
                 </HBox>
             </children>
             <padding>
-                <Insets left="16.0" right="16.0"/>
+                <Insets left="16.0" right="16.0" />
             </padding>
         </VBox>
-        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0" spacing="8.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BitDepth" HBox.hgrow="ALWAYS"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <ChoiceBox fx:id="bitDepthPicker" maxWidth="80.0" minWidth="80.0" prefWidth="80.0"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BitDepth" HBox.hgrow="ALWAYS" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="bitDepthPicker" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                     </children>
                     <padding>
-                        <Insets left="8.0" right="8.0"/>
+                        <Insets left="8.0" right="8.0" />
                     </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0" spacing="8.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pixel Type" HBox.hgrow="ALWAYS"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <ChoiceBox fx:id="pixelTypePicker" maxWidth="80.0" minWidth="80.0" prefWidth="80.0"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pixel Type" HBox.hgrow="ALWAYS" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="pixelTypePicker" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                     </children>
                     <padding>
-                        <Insets left="8.0" right="8.0"/>
+                        <Insets left="8.0" right="8.0" />
                     </padding>
                 </HBox>
             </children>
             <padding>
-                <Insets left="16.0" right="16.0"/>
+                <Insets left="16.0" right="16.0" />
             </padding>
         </VBox>
-        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
     </children>
     <padding>
-        <Insets bottom="4.0" top="4.0"/>
+        <Insets bottom="4.0" top="4.0" />
     </padding>
 </fx:root>
