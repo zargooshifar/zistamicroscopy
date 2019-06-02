@@ -11,6 +11,6 @@
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="MMLibs" level="project" />
     <orderEntry type="library" name="javafx" level="project" />
-    <orderEntry type="library" name="controlsfx-11.0.0" level="project" />
+    <orderEntry type="library" name="controlsfx-9.0.0" level="project" />
   </component>
 </module>

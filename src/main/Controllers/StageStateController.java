@@ -1,11 +1,11 @@
 package main.Controllers;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,6 +34,13 @@ public class StageStateController extends VBox {
 
     @FXML
     private Spinner<Integer> largeStepSizeSpinner;
+
+
+    @FXML
+    private CheckBox autoFocusCheckBox;
+
+    @FXML
+    private Slider focusSlider;
 
     private int unitMultiplier = 1;
 
@@ -89,7 +96,25 @@ public class StageStateController extends VBox {
             Singletons.getStageControllerInstance().getStepSizes().setLargeStep(newValue);
         });
 
+        autoFocusCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> focusSlider.setDisable(newValue));
 
+        focusSlider.setMax(130);
+        focusSlider.setMin(5);
+        focusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            moveZ(newValue.intValue());
+        });
+
+    }
+
+    private void moveZ(int newValue) {
+        String command = String.format("{%03d}",newValue);
+        try {
+            System.out.println(command);
+            Singletons.getCoreInstance().setSerialPortCommand("COM5", command,"\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

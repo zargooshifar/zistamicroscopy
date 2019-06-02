@@ -99,7 +99,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
         instance.setSize(min,min);
         imageWindowX.setSize(min,min);
         panel.setMaximumSize(new Dimension(100,100));
-        panel.setBackground(Color.RED);
+        panel.setBackground(Color.BLACK);
 
 
 
@@ -111,7 +111,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
     private ImageCanvas() {
         super(new ImagePlus("title", new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB)));
         node = new SwingNode();
-        panel = new JPanel();
+        panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         imageWindowX = new ImageWindowX("");
     }
 
@@ -251,6 +251,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
 
     public void updateImage(TaggedImage image) {
         ImageProcessor imageProcessor = ImageUtils.makeProcessor(image);
+//        imageProcessor.autoThreshold();
         if(isFlipedHorizental)
             imageProcessor.flipHorizontal();
         if(isFlipedVertical)

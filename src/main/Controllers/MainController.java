@@ -96,29 +96,14 @@ public class MainController implements Initializable {
 
         loadConfig();
 
-        ImagePlus imp = null;
-
-        try {
-            core.snapImage();
-            imp = new ImagePlus("", ImageUtils.makeProcessor(core.getTaggedImage()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        ij.gui.ImageCanvas imageCanvas = new ij.gui.ImageCanvas(imp);
-//
-//        JPanel jPanel = new JPanel();
-//        jPanel.setSize(500,500);
-//        System.out.println(jPanel.getWidth()+ " "+ jPanel.getHeight());
-//        jPanel.add(imageCanvas);
-//        SwingNode node = new SwingNode();
-//        node.setContent(jPanel);
-//        imageCanvasContainer.getChildren().add(node);
-
-
         Toolbar toolbar = new Toolbar();
-
         ImageCanvas ic = ImageCanvas.getInstance();
+
+
+
+
+
+
 
         imageCanvasContainer.getChildren().add(ic.getSwingNode(imageCanvasContainer));
         cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
@@ -144,7 +129,26 @@ public class MainController implements Initializable {
 
     }
 
+ private SwingNode getACanvasNode(){
+        ImagePlus imp = null;
 
+        try {
+            core.snapImage();
+            imp = new ImagePlus("", ImageUtils.makeProcessor(core.getTaggedImage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+             ij.gui.ImageCanvas imageCanvas = new ij.gui.ImageCanvas(imp);
+
+        JPanel jPanel = new JPanel();
+        jPanel.setSize(500,500);
+        System.out.println(jPanel.getWidth()+ " "+ jPanel.getHeight());
+        jPanel.add(imageCanvas);
+        SwingNode node = new SwingNode();
+        node.setContent(jPanel);
+
+        return node;
+    }
 
     @FXML
     void selectAngleTool(ActionEvent event) {

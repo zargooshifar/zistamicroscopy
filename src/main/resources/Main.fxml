@@ -19,7 +19,7 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.MainController">
     <children>
-        <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0" stylesheets="@assests/css/styles.css" tabClosingPolicy="UNAVAILABLE">
+        <TabPane maxHeight="130.0" minHeight="130.0" prefHeight="130.0"  tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Home">
                     <content>

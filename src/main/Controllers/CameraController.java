@@ -56,7 +56,7 @@ public class CameraController extends HBox {
     @FXML
     private JFXButton btn_startlive;
     private CMMCore core;
-    private boolean autoContrast;
+    private boolean autoContrast = true;
     private boolean isLive;
     private long imageNumber_;
     private LinkedBlockingQueue<TaggedImage> imageQueue_;
