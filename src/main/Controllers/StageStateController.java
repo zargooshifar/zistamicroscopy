@@ -1,8 +1,7 @@
 package main.Controllers;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -10,6 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.Singletons;
+import main.utils.OughtaFocus;
+import mmcorej.CMMCore;
+import org.micromanager.utils.MMException;
 
 import java.io.IOException;
 
@@ -96,21 +98,42 @@ public class StageStateController extends VBox {
             Singletons.getStageControllerInstance().getStepSizes().setLargeStep(newValue);
         });
 
-        autoFocusCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> focusSlider.setDisable(newValue));
+        autoFocusCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            focusSlider.setDisable(newValue);
+            Singletons.getCameraControllerInstance().setAutoFocus(newValue);
+        });
 
         focusSlider.setMax(130);
-        focusSlider.setMin(5);
+        focusSlider.setMin(0);
         focusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             moveZ(newValue.intValue());
         });
 
     }
 
+    @FXML
+    void focus(ActionEvent event) {
+        OughtaFocus oughtaFocus = new OughtaFocus();
+            try {
+                oughtaFocus.fullFocus();
+            } catch (MMException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    private CMMCore core = Singletons.getCoreInstance();
+
     private void moveZ(int newValue) {
-        String command = String.format("{%03d}",newValue);
+        String command = String.format("!moa z%d",newValue);
+
+
         try {
             System.out.println(command);
-            Singletons.getCoreInstance().setSerialPortCommand("COM5", command,"\n");
+            core.setSerialPortCommand("COM9", command,"\r");
+            System.out.println(core.getFocusDevice());
+//            core.waitForDevice("FreeSerialPort");
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,4 +151,5 @@ public class StageStateController extends VBox {
             }
         });
     }
+
 }

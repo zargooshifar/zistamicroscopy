@@ -2,35 +2,31 @@ package main.Controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
-import ij.ImageJ;
-import ij.ImagePlus;
-import ij.Prefs;
-import ij.gui.Toolbar;
-import javafx.embed.swing.SwingNode;
-import javafx.event.ActionEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import main.ImageUtils.ImageCanvas;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import main.viewer.ImageDisplayPane;
+import main.utils.Prefs;
+import main.viewer.canvas.FxImageCanvas;
 import main.Singletons;
+import main.viewer.overlay.*;
 import mmcorej.CMMCore;
-import mmcorej.MMCoreJ;
 import mmcorej.StrVector;
-import org.micromanager.utils.ImageUtils;
-import org.micromanager.utils.PropertyItem;
+import net.imagej.display.DefaultOverlayView;
+import net.imagej.overlay.*;
 import org.scijava.Context;
 import org.scijava.plugin.Parameter;
 
-import javax.swing.*;
-import java.awt.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import main.utils.OverlayHelper;
 
 public class MainController implements Initializable {
 
@@ -42,47 +38,39 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane acquisitionControllerContainer;
     @FXML
-    private AnchorPane histogramPanel;
+    private VBox toolbarContainer;
     @FXML
     private HBox statusbarContainer;
     @FXML
     private AnchorPane stageStateContainer;
+    @FXML
+    private RadioMenuItem window_stagestate;
+    @FXML
+    private VBox sidePanel;
 
     @FXML
-    private Button rectangleToolButton;
-
-
+    private RadioMenuItem window_histogram;
 
     @FXML
-    private Button ovalToolButton;
-
-
-    @FXML
-    private Button polygonToolButton;
+    private RadioMenuItem window_deviceproperty;
 
     @FXML
-    private Button lineToolButton;
+    private TitledPane tile_stagestate;
 
     @FXML
-    private Button freeLineToolButton;
+    private TitledPane tile_histogram;
 
     @FXML
-    private Button angleToolButton;
+    private TitledPane tile_deviceproperty;
+    @FXML
+    private AnchorPane deviceProprtyContainer;
 
     @FXML
-    private Button pointToolButton;
+    private ScrollPane scrollSidePanel;
 
-    @FXML
-    private Button multiPointToolButton;
 
-    @FXML
-    private Button arrowToolButton;
 
-    @FXML
-    private Button handToolButton;
 
-    @FXML
-    private Button zoomToolButton;
 
     @Parameter
     Context context;
@@ -95,28 +83,81 @@ public class MainController implements Initializable {
         core = Singletons.getCoreInstance();
 
         loadConfig();
-
-        Toolbar toolbar = new Toolbar();
-        ImageCanvas ic = ImageCanvas.getInstance();
-
-
-
-
+        try {
+            getProperties();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
-        imageCanvasContainer.getChildren().add(ic.getSwingNode(imageCanvasContainer));
+        FxImageCanvas canvas = new FxImageCanvas();
+        Singletons.getCameraControllerInstance().setCanvas(canvas);
+
+        new ImageDisplayPane(canvas, imageCanvasContainer); //create and add imagedisplaypane
+
+        imageCanvasContainer.getChildren().add(Singletons.getToolbarController());
+
+
+//        imageCanvasContainer.getChildren().add(ic.getSwingNode(imageCanvasContainer));
         cameraControllerContainer.getChildren().add(Singletons.getCameraControllerInstance());
         acquisitionControllerContainer.getChildren().add(Singletons.getAcquisitionControllerInstance());
         statusbarContainer.getChildren().add(Singletons.getStatusbarControllerInstance());
         stageStateContainer.getChildren().add(Singletons.getStageStateInstance());
 
-        imageCanvasContainer.getChildren().add(Singletons.getStageControllerInstance());
+//        imageCanvasContainer.getChildren().add(Singletons.getStageControllerInstance());
+//        toolbarContainer.getChildren().add(Singletons.getToolbarController());
 
+
+
+        tile_stagestate.managedProperty().bind(tile_stagestate.visibleProperty());
+        tile_histogram.managedProperty().bind(tile_histogram.visibleProperty());
+        tile_deviceproperty.managedProperty().bind(tile_deviceproperty.visibleProperty());
+        sidePanel.managedProperty().bind(sidePanel.visibleProperty());
+
+        window_deviceproperty.selectedProperty().setValue(Prefs.Window.isDeviceProperty());
+        window_histogram.selectedProperty().setValue(Prefs.Window.isHistogram());
+        window_stagestate.selectedProperty().setValue(Prefs.Window.isStageState());
+
+
+        tile_deviceproperty.visibleProperty().setValue(Prefs.Window.isDeviceProperty());
+        tile_histogram.visibleProperty().setValue(Prefs.Window.isHistogram());
+        tile_stagestate.visibleProperty().setValue(Prefs.Window.isStageState());
+//        checkSidePanelEmptiness();
+
+
+        window_stagestate.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            tile_stagestate.setVisible(newValue);
+            Prefs.Window.setStageState(newValue);
+//            checkSidePanelEmptiness();
+        });
+
+        window_histogram.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            tile_histogram.setVisible(newValue);
+            Prefs.Window.setHistogram(newValue);
+//            checkSidePanelEmptiness();
+
+        });
+
+        window_deviceproperty.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            tile_deviceproperty.setVisible(newValue);
+            Prefs.Window.setDeviceProperty(newValue);
+//            checkSidePanelEmptiness();
+
+        });
     }
 
+    private void checkSidePanelEmptiness(){
+        if(!tile_stagestate.isVisible() && !tile_stagestate.isVisible() && !tile_histogram.isVisible()){
+            sidePanel.visibleProperty().setValue(false);
+        }else {
+            sidePanel.visibleProperty().setValue(true);
+        }
+    }
+
+
     public void loadConfig() {
-        String configAddress = "config2.cfg";
+        String configAddress = "config.cfg";
 
         try {
 
@@ -129,149 +170,82 @@ public class MainController implements Initializable {
 
     }
 
- private SwingNode getACanvasNode(){
-        ImagePlus imp = null;
 
-        try {
-            core.snapImage();
-            imp = new ImagePlus("", ImageUtils.makeProcessor(core.getTaggedImage()));
-        } catch (Exception e) {
-            e.printStackTrace();
+
+
+    private void getProperties() throws Exception {
+        StrVector devices  =core.getLoadedDevices();
+        VBox container = new VBox();
+        container.setSpacing(4);
+        for(String device: devices){
+            VBox deviceContainer = new VBox();
+            VBox.setMargin(deviceContainer, new Insets(0));
+
+            deviceContainer.setSpacing(2);
+            Label deviceLabel = new Label(device);
+            VBox.setMargin(deviceLabel,new Insets(8,4,8,4));
+
+
+            deviceContainer.getChildren().add(deviceLabel);
+            StrVector properties = core.getDevicePropertyNames(device);
+            for(String property: properties){
+                HBox propertyContainer = new HBox();
+                VBox.setMargin(propertyContainer, new Insets(0));
+
+                Label propertyLabel = new Label(property);
+                Pane pane = new Pane();
+                HBox.setHgrow(pane,Priority.ALWAYS);
+                ChoiceBox<String> propertyChoices = new ChoiceBox<>();
+                StrVector values = core.getAllowedPropertyValues(device, property);
+                if(!values.isEmpty()){
+                    for(String value: values){
+                        propertyChoices.getItems().add(value);
+                    }
+                    propertyChoices.valueProperty().addListener((observable, oldValue, newValue) -> {
+                        try {
+                            core.setProperty(device, property, newValue);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    propertyContainer.getChildren().addAll(propertyLabel, pane, propertyChoices);
+                }else {
+                    int up = (int) core.getPropertyUpperLimit(device, property);
+                    int low = (int) core.getPropertyLowerLimit(device, property);
+                    TextField textField = new TextField();
+                    propertyLabel.setText(propertyLabel.getText() + String.format("  (%d   %d)",low,up));
+                    propertyContainer.getChildren().addAll(propertyLabel, pane, textField);
+                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                        try {
+                            core.setProperty(device, property, newValue);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                }
+                VBox.setMargin(propertyContainer,new Insets(0,8,0,8));
+                VBox.setMargin(propertyContainer,new Insets(0));
+                deviceContainer.getChildren().add(propertyContainer);
+            }
+            if(!properties.isEmpty()){
+                container.getChildren().add(deviceContainer);
+            }
         }
-             ij.gui.ImageCanvas imageCanvas = new ij.gui.ImageCanvas(imp);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(container);
 
-        JPanel jPanel = new JPanel();
-        jPanel.setSize(500,500);
-        System.out.println(jPanel.getWidth()+ " "+ jPanel.getHeight());
-        jPanel.add(imageCanvas);
-        SwingNode node = new SwingNode();
-        node.setContent(jPanel);
-
-        return node;
-    }
-
-    @FXML
-    void selectAngleTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.ANGLE);
-        refreshToolbar();
-
-    }
-
-
-    @FXML
-    void selectFreeLineTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.FREEROI);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectLineTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.LINE);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectMultiPointTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.UNUSED);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectOvalTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.OVAL);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectPointTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.POINT);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectPolygonTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.POLYGON);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectRectangleTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.RECTANGLE);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectArrowTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.UNUSED);
-        refreshToolbar();
-
-    }
-
-    @FXML
-    void selectHandTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.HAND);
-        refreshToolbar();
-    }
-
-    @FXML
-    void selectZoomTool(ActionEvent event) {
-        Toolbar.getInstance().setTool(Toolbar.MAGNIFIER);
-        refreshToolbar();
-    }
-
-
-    private void refreshToolbar(){
-        rectangleToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.RECTANGLE);
-        zoomToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.MAGNIFIER);
-        handToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.HAND);
-        arrowToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.UNUSED);
-        ovalToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.OVAL);
-        polygonToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.POLYGON);
-        lineToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.LINE);
-        freeLineToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.FREEROI);
-        angleToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.ANGLE);
-        pointToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.POINT);
-        multiPointToolButton.setDefaultButton(Toolbar.getToolId() == Toolbar.UNUSED);
-    }
-
-    @FXML
-    void changeAspectRatio(ActionEvent event) {
-
-    }
-
-    @FXML
-    void fitZoom(ActionEvent event) {
-        ImageCanvas.getInstance().zoom100Percent();
-    }
-
-    @FXML
-    void flipHorizental(ActionEvent event) {
-        ImageCanvas.getInstance().flipHorizental();
-    }
-
-    @FXML
-    void flipVertical(ActionEvent event) {
-        ImageCanvas.getInstance().flipVertical();
-    }
-
-
-
-
-    @FXML
-    void rotateLeft(ActionEvent event) {
-        ImageCanvas.getInstance().rotateLeft();
-    }
-
-    @FXML
-    void rotateRight(ActionEvent event) {
-        ImageCanvas.getInstance().rotateRight();
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+//        scrollPane.setPrefHeight(scrollPane.getPrefViewportHeight());
+        deviceProprtyContainer.getChildren().add(scrollPane);
+        AnchorPane.setRightAnchor(scrollPane,0d);
+        AnchorPane.setLeftAnchor(scrollPane,0d);
+        AnchorPane.setBottomAnchor(scrollPane,0d);
+        AnchorPane.setTopAnchor(scrollPane,0d);
+        sidePanel.setMaxWidth(scrollPane.getPrefWidth());
+        sidePanel.setPrefWidth(scrollPane.getPrefWidth());
+        sidePanel.setMinWidth(scrollPane.getPrefWidth());
     }
 
 

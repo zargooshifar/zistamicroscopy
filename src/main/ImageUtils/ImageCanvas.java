@@ -14,6 +14,7 @@ import ij.process.ImageProcessor;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.layout.StackPane;
 import mmcorej.TaggedImage;
+import net.imglib2.img.display.imagej.ImageProcessorUtils;
 import org.micromanager.utils.ImageUtils;
 
 import javax.swing.*;
@@ -45,7 +46,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
 
         stackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             cw.set(newValue.intValue());
-            refreshCanvasSizes();
+//            refreshCanvasSizes();
 
 //            int x = (cw.get() / 2) - (getWidth() / 2);
 //            int y = (ch.get() / 2) - (getHeight() / 2);
@@ -60,7 +61,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
 
         stackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
             ch.set(newValue.intValue());
-            refreshCanvasSizes();
+//            refreshCanvasSizes();
 //            int x = (cw.get() / 2) - (getWidth() / 2);
 //            int y = (ch.get() / 2) - (getHeight() / 2);
 
@@ -99,7 +100,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
         instance.setSize(min,min);
         imageWindowX.setSize(min,min);
         panel.setMaximumSize(new Dimension(100,100));
-        panel.setBackground(Color.BLACK);
+        panel.setBackground(Color.BLUE);
 
 
 
@@ -111,7 +112,7 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
     private ImageCanvas() {
         super(new ImagePlus("title", new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB)));
         node = new SwingNode();
-        panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        panel = new JPanel();
         imageWindowX = new ImageWindowX("");
     }
 
@@ -251,6 +252,10 @@ public class ImageCanvas extends ij.gui.ImageCanvas {
 
     public void updateImage(TaggedImage image) {
         ImageProcessor imageProcessor = ImageUtils.makeProcessor(image);
+//        imageProcessor = imageProcessor.resize(cw.get(),ch.get());
+
+
+
 //        imageProcessor.autoThreshold();
         if(isFlipedHorizental)
             imageProcessor.flipHorizontal();

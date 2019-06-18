@@ -12,6 +12,7 @@ public class Singletons {
     private static AcquisitionController acquisitionController;
     private static StatusbarController statusbarController;
     private static StageStateController stageStateController;
+    private static ToolbarController toolbarController;
 
     public static CMMCore getCoreInstance() {
         if (coreInstance == null)
@@ -48,6 +49,12 @@ public class Singletons {
         if (stageStateController == null)
             stageStateController = new StageStateController();
         return stageStateController;
+    }
+
+    public static ToolbarController getToolbarController() {
+        if (toolbarController == null)
+            toolbarController = new ToolbarController();
+        return toolbarController;
     }
 
 

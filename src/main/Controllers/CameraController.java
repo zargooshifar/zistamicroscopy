@@ -4,16 +4,21 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import ij.ImagePlus;
 import ij.io.FileSaver;
+import ij.process.ImageProcessor;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import main.ImageUtils.ImageCanvas;
+import main.viewer.canvas.FxImageCanvas;
 import main.Singletons;
 import mmcorej.CMMCore;
 import mmcorej.StrVector;
@@ -55,13 +60,19 @@ public class CameraController extends HBox {
     private JFXButton btn_capture_save;
     @FXML
     private JFXButton btn_startlive;
+
+    @FXML
+    private Button runGalvo;
+
+
     private CMMCore core;
     private boolean autoContrast = true;
     private boolean isLive;
     private long imageNumber_;
     private LinkedBlockingQueue<TaggedImage> imageQueue_;
     private ImageCanvas imageCanvas;
-
+    private FxImageCanvas canvas;
+    private boolean autoFocus;
     public CameraController() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/camera.fxml"));
@@ -76,6 +87,12 @@ public class CameraController extends HBox {
         core = Singletons.getCoreInstance();
         engine = new AcquisitionWrapperEngine(new AcquisitionManager());
         imageCanvas = ImageCanvas.getInstance();
+
+        runGalvo.setOnAction(event -> {
+            System.out.println("dddd");
+            GalvoController.getInstance().run();
+        });
+
 
     }
 
@@ -158,7 +175,10 @@ public class CameraController extends HBox {
 
         }
 
+
+
     }
+
 
     private void setCameraConfigDisable(boolean disabe) {
         pixelTypePicker.setDisable(disabe);
@@ -308,10 +328,12 @@ public class CameraController extends HBox {
         return displayThread;
     }
 
-    private void displayImageRoutine(TaggedImage image) {
+    private void displayImageRoutine(TaggedImage taggedImage) {
+        Image finalImage = getFxImage(taggedImage);
 
         Platform.runLater(() -> {
-            imageCanvas.updateImage(image);
+//            imageCanvas.updateImage(taggedImage);
+            canvas.setImage(finalImage);
         });
 
     }
@@ -371,9 +393,10 @@ public class CameraController extends HBox {
         if (!core.isSequenceRunning()) {
             try {
                 core.snapImage();
-                TaggedImage image = core.getTaggedImage();
+                TaggedImage taggedImage = core.getTaggedImage();
 
-                imageCanvas.updateImage(image);
+//                imageCanvas.updateImage(taggedImage);
+                canvas.setImage(getFxImage(taggedImage));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -381,10 +404,36 @@ public class CameraController extends HBox {
 
     }
 
+    private Image getFxImage(TaggedImage taggedImage){
+        ImageProcessor imageProcessor = ImageUtils.makeProcessor(taggedImage);
+        Image finalImage = SwingFXUtils.toFXImage(imageProcessor.getBufferedImage(), null);
+        return finalImage;
+    }
+
+
+
+
+
     @FXML
     void doCaptureSave(ActionEvent event) {
         captureAndSave(new Date().toString(), 0, 0, true);
 
+    }
+
+    public FxImageCanvas getCanvas() {
+        return canvas;
+    }
+
+    public void setCanvas(FxImageCanvas canvas) {
+        this.canvas = canvas;
+    }
+
+    public boolean isAutoFocus() {
+        return autoFocus;
+    }
+
+    public void setAutoFocus(boolean autoFocus) {
+        this.autoFocus = autoFocus;
     }
 
     private class TimerController {
@@ -461,6 +510,15 @@ public class CameraController extends HBox {
 
                 this.timer_ = null;
             }
+        }
+    }
+
+    @FXML
+    void center(ActionEvent event) {
+        try {
+            Singletons.getCoreInstance().setSerialPortCommand("COM9", "{125125}","");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

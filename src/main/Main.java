@@ -31,6 +31,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("resources/Main.fxml"));
         primaryStage.setTitle("Zistagene Microscopy");
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(550);
 //        primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root,800,600);
 //        new JMetro(JMetro.Style.DARK).applyTheme(root);
